@@ -1,0 +1,19 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: 01-graph_intro
+- file: 02-karate_club
+- file: 03-gnn_citations_node_classification_keras
+- file: 04-intro_pytorch_geometric
+- file: 05-gcn_karate_club_with_pytorch_geometric
+- file: 06-gnn_citations_node_classification_pytorch_geometric
+- file: 07-Graph_Classification_pyg
+- file: 08-Graph_Regression_pyg
+- file: 09-cluster_gcn
+- file: 10-GAE_graph_autoencoder
+- file: 11-Link_Prediction_on_MovieLens_part1
+- file: 12-Link_Regression_on_Movielens_part2
+- file: 13-Spatio_temporal_for_traffic_forecasting
