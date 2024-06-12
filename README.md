@@ -1,4 +1,4 @@
-![](lectures/img/572_banner.png)
+![](img/banner.png)
 
 ## Computer Science Dept, Ferdowsi University of Mashhad
 
@@ -10,7 +10,11 @@ An introduction to graph neural networks
 
 2024 Instructor: Mahmood Amintoosi
 
-I should mention that the original material of this course was from [Graph Neural Networks](https://github.com/Alireza-Akhavan/graph-neural-network) notebooks, by [Alireza AkhavanPour](https://github.com/Alireza-Akhavan). I have forked his repository and modified it to suit my own needs and preferences. I would like to thank him for his great work and generosity.
+
+**Acknowledgement**
+
+This repository incorporates materials and inspiration from the [PyTorch-Geometric](pytorch-geometric.readthedocs.io) documentation. We acknowledge the valuable resources provided by the PyTorch-Geometric community, which have been essential in the development of this tutorial.
+
 
 
 ## Build

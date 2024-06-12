@@ -1,22 +1,28 @@
-![](lectures/img/572_banner.png)
+![](img/banner.png)
 
-## Computer Science Dept, Ferdowsi University of Mashhad
+# Graph Neural Networks
 
-# Graph Neural Networks 
+2024 Instructor: [Mahmood Amintoosi](http://mamintoosi.github.io)
 
-An introduction to graph neural networks
+---
 
-- [Course Jupyter Book](https://fum-cs.github.io/graph-neural-networks/README.html)
+Welcome to this hands-on workshop, where we'll delve into the exciting world of Graph Neural Networks (GNNs)! GNNs have revolutionized Machine Learning by enabling effective analysis of complex graph-structured data. To help you get started, I've curated a concise guide (study sheet) that will introduce you to the fundamentals of GNNs and bring you up-to-speed with the latest advancements.
 
-2024 Instructor: Mahmood Amintoosi
+**Some valuable resources to deepen our understanding of GNNs:**
 
-I should mention that the original material of this course was from [Graph Neural Networks](https://github.com/Alireza-Akhavan/graph-neural-network) notebooks, by [Alireza AkhavanPour](https://github.com/Alireza-Akhavan). I have forked his repository and modified it to suit my own needs and preferences. I would like to thank him for his great work and generosity.
+* [Gentle Introduction to GNNs](https://distill.pub/2021/gnn-intro/)  (by Distill)
+* [Understanding Convolutions on Graphs](https://distill.pub/2021/understanding-gnns/) (by Distill)
+* [Math Behind Graph Neural Networks](https://rish-16.github.io/posts/gnn-math/) (by Rishabh Anand)
 
+**Some hands-on coding exercises using PyTorch to implement GNNs:**
 
-## Contents:
 
 ```{tableofcontents}
 ```
+
+---
+
+This repository incorporates materials and inspiration from the [PyTorch-Geometric](pytorch-geometric.readthedocs.io) documentation. We acknowledge the valuable resources provided by the PyTorch-Geometric community, which have been essential in the development of this tutorial.
 
 ## Build
 
