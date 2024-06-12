@@ -1,0 +1,1072 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction: Hands-on Graph Neural Networks &#8212; GNNs</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '1_Introduction';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Node Classification with Graph Neural Networks" href="2_Node_Classification.html" />
+    <link rel="prev" title="Graph Neural Networks" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="GNNs - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="GNNs - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Graph Neural Networks
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction: Hands-on Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2_Node_Classification.html">Node Classification with Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3_Graph_Classification.html">Graph Classification with Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4_Scaling_GNNs.html">Scaling Graph Neural Networks</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/fum-cs/graph-neural-networks/blob/main/notebooks/1_Introduction.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/graph-neural-networks" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/graph-neural-networks/issues/new?title=Issue%20on%20page%20%2F1_Introduction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/1_Introduction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introduction: Hands-on Graph Neural Networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-graph-neural-networks">Implementing Graph Neural Networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#embedding-the-karate-club-network">Embedding the Karate Club Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-on-the-karate-club-network">Training on the Karate Club Network</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell tag_hide-input tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Install required packages.
+import os
+import torch
+os.environ[&#39;TORCH&#39;] = torch.__version__
+print(torch.__version__)
+
+!pip install -q torch-scatter -f https://data.pyg.org/whl/torch-${TORCH}.html
+!pip install -q torch-sparse -f https://data.pyg.org/whl/torch-${TORCH}.html
+!pip install -q git+https://github.com/pyg-team/pytorch_geometric.git
+
+# Helper function for visualization.
+%matplotlib inline
+import networkx as nx
+import matplotlib.pyplot as plt
+
+
+def visualize_graph(G, color):
+    plt.figure(figsize=(7,7))
+    plt.xticks([])
+    plt.yticks([])
+    nx.draw_networkx(G, pos=nx.spring_layout(G, seed=42), with_labels=False,
+                     node_color=color, cmap=&quot;Set2&quot;)
+    plt.show()
+
+
+def visualize_embedding(h, color, epoch=None, loss=None):
+    plt.figure(figsize=(7,7))
+    plt.xticks([])
+    plt.yticks([])
+    h = h.detach().cpu().numpy()
+    plt.scatter(h[:, 0], h[:, 1], s=140, c=color, cmap=&quot;Set2&quot;)
+    if epoch is not None and loss is not None:
+        plt.xlabel(f&#39;Epoch: {epoch}, Loss: {loss.item():.4f}&#39;, fontsize=16)
+    plt.show()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.13.0+cu116
+     |████████████████████████████████| 9.4 MB 1.8 MB/s 
+     |████████████████████████████████| 4.6 MB 2.8 MB/s 
+     |████████████████████████████████| 280 kB 5.3 MB/s 
+?25h  Building wheel for torch-geometric (setup.py) ... ?25l?25hdone
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="introduction-hands-on-graph-neural-networks">
+<h1>Introduction: Hands-on Graph Neural Networks<a class="headerlink" href="#introduction-hands-on-graph-neural-networks" title="Link to this heading">#</a></h1>
+<p>Recently, deep learning on graphs has emerged to one of the hottest research fields in the deep learning community.
+Here, <strong>Graph Neural Networks (GNNs)</strong> aim to generalize classical deep learning concepts to irregular structured data (in contrast to images or texts) and to enable neural networks to reason about objects and their relations.</p>
+<p>This is done by following a simple <strong>neural message passing scheme</strong>, where node features <span class="math notranslate nohighlight">\(\mathbf{x}_v^{(\ell)}\)</span> of all nodes <span class="math notranslate nohighlight">\(v \in \mathcal{V}\)</span> in a graph <span class="math notranslate nohighlight">\(\mathcal{G} = (\mathcal{V}, \mathcal{E})\)</span> are iteratively updated by aggregating localized information from their neighbors <span class="math notranslate nohighlight">\(\mathcal{N}(v)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}_v^{(\ell + 1)} = f^{(\ell + 1)}_{\theta} \left( \mathbf{x}_v^{(\ell)}, \left\{ \mathbf{x}_w^{(\ell)} : w \in \mathcal{N}(v) \right\} \right)
+\]</div>
+<p>This tutorial will introduce you to some fundamental concepts regarding deep learning on graphs via Graph Neural Networks based on the <strong><a class="reference external" href="https://github.com/rusty1s/pytorch_geometric">PyTorch Geometric (PyG) library</a></strong>.
+PyTorch Geometric is an extension library to the popular deep learning framework <a class="reference external" href="https://pytorch.org/">PyTorch</a>, and consists of various methods and utilities to ease the implementation of Graph Neural Networks.</p>
+<p>Following <a class="reference external" href="https://arxiv.org/abs/1609.02907">Kipf et al. (2017)</a>, let’s dive into the world of GNNs by looking at a simple graph-structured example, the well-known <a class="reference external" href="https://en.wikipedia.org/wiki/Zachary%27s_karate_club"><strong>Zachary’s karate club network</strong></a>. This graph describes a social network of 34 members of a karate club and documents links between members who interacted outside the club. Here, we are interested in detecting communities that arise from the member’s interaction.</p>
+<p>PyTorch Geometric provides an easy access to this dataset via the <a class="reference external" href="https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html#torch_geometric.datasets"><code class="docutils literal notranslate"><span class="pre">torch_geometric.datasets</span></code></a> subpackage:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>from torch_geometric.datasets import KarateClub
+
+dataset = KarateClub()
+print(f&#39;Dataset: {dataset}:&#39;)
+print(&#39;======================&#39;)
+print(f&#39;Number of graphs: {len(dataset)}&#39;)
+print(f&#39;Number of features: {dataset.num_features}&#39;)
+print(f&#39;Number of classes: {dataset.num_classes}&#39;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset: KarateClub():
+======================
+Number of graphs: 1
+Number of features: 34
+Number of classes: 4
+</pre></div>
+</div>
+</div>
+</div>
+<p>After initializing the <a class="reference external" href="https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html#torch_geometric.datasets.KarateClub"><code class="docutils literal notranslate"><span class="pre">KarateClub</span></code></a> dataset, we first can inspect some of its properties.
+For example, we can see that this dataset holds exactly <strong>one graph</strong>, and that each node in this dataset is assigned a <strong>34-dimensional feature vector</strong> (which uniquely describes the members of the karate club).
+Furthermore, the graph holds exactly <strong>4 classes</strong>, which represent the community each node belongs to.</p>
+<p>Let’s now look at the underlying graph in more detail:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>data = dataset[0]  # Get the first graph object.
+
+print(data)
+print(&#39;==============================================================&#39;)
+
+# Gather some statistics about the graph.
+print(f&#39;Number of nodes: {data.num_nodes}&#39;)
+print(f&#39;Number of edges: {data.num_edges}&#39;)
+print(f&#39;Average node degree: {data.num_edges / data.num_nodes:.2f}&#39;)
+print(f&#39;Number of training nodes: {data.train_mask.sum()}&#39;)
+print(f&#39;Training node label rate: {int(data.train_mask.sum()) / data.num_nodes:.2f}&#39;)
+print(f&#39;Has isolated nodes: {data.has_isolated_nodes()}&#39;)
+print(f&#39;Has self-loops: {data.has_self_loops()}&#39;)
+print(f&#39;Is undirected: {data.is_undirected()}&#39;)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data(x=[34, 34], edge_index=[2, 156], y=[34], train_mask=[34])
+==============================================================
+Number of nodes: 34
+Number of edges: 156
+Average node degree: 4.59
+Number of training nodes: 4
+Training node label rate: 0.12
+Has isolated nodes: False
+Has self-loops: False
+Is undirected: True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Each graph in PyTorch Geometric is represented by a single <a class="reference external" href="https://pytorch-geometric.readthedocs.io/en/latest/modules/data.html#torch_geometric.data.Data"><code class="docutils literal notranslate"><span class="pre">Data</span></code></a> object, which holds all the information to describe its graph representation.
+We can print the data object anytime via <code class="docutils literal notranslate"><span class="pre">print(data)</span></code> to receive a short summary about its attributes and their shapes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span><span class="p">(</span><span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">156</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">34</span><span class="p">,</span> <span class="mi">34</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mi">34</span><span class="p">],</span> <span class="n">train_mask</span><span class="o">=</span><span class="p">[</span><span class="mi">34</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>We can see that this <code class="docutils literal notranslate"><span class="pre">data</span></code> object holds 4 attributes:
+(1) The <code class="docutils literal notranslate"><span class="pre">edge_index</span></code> property holds the information about the <strong>graph connectivity</strong>, <em>i.e.</em>, a tuple of source and destination node indices for each edge.
+PyG further refers to (2) <strong>node features</strong> as <code class="docutils literal notranslate"><span class="pre">x</span></code> (each of the 34 nodes is assigned a 34-dim feature vector), and to (3) <strong>node labels</strong> as <code class="docutils literal notranslate"><span class="pre">y</span></code> (each node is assigned to exactly one class).
+(4) There also exists an additional attribute called <code class="docutils literal notranslate"><span class="pre">train_mask</span></code>, which describes for which nodes we already know their community assigments.
+In total, we are only aware of the ground-truth labels of 4 nodes (one for each community), and the task is to infer the community assignment for the remaining nodes.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">data</span></code> object also provides some <strong>utility functions</strong> to infer some basic properties of the underlying graph.
+For example, we can easily infer whether there exists isolated nodes in the graph (<em>i.e.</em> there exists no edge to any node), whether the graph contains self-loops (<em>i.e.</em>, <span class="math notranslate nohighlight">\((v, v) \in \mathcal{E}\)</span>), or whether the graph is undirected (<em>i.e.</em>, for each edge <span class="math notranslate nohighlight">\((v, w) \in \mathcal{E}\)</span> there also exists the edge <span class="math notranslate nohighlight">\((w, v) \in \mathcal{E}\)</span>).</p>
+<p>Let us now inspect the <code class="docutils literal notranslate"><span class="pre">edge_index</span></code> property in more detail:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>from IPython.display import Javascript  # Restrict height of output cell.
+display(Javascript(&#39;&#39;&#39;google.colab.output.setIframeHeight(0, true, {maxHeight: 300})&#39;&#39;&#39;))
+
+edge_index = data.edge_index
+print(edge_index.t())
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">google.colab.output.setIframeHeight(0, true, {maxHeight: 300})</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ 0,  1],
+        [ 0,  2],
+        [ 0,  3],
+        [ 0,  4],
+        [ 0,  5],
+        [ 0,  6],
+        [ 0,  7],
+        [ 0,  8],
+        [ 0, 10],
+        [ 0, 11],
+        [ 0, 12],
+        [ 0, 13],
+        [ 0, 17],
+        [ 0, 19],
+        [ 0, 21],
+        [ 0, 31],
+        [ 1,  0],
+        [ 1,  2],
+        [ 1,  3],
+        [ 1,  7],
+        [ 1, 13],
+        [ 1, 17],
+        [ 1, 19],
+        [ 1, 21],
+        [ 1, 30],
+        [ 2,  0],
+        [ 2,  1],
+        [ 2,  3],
+        [ 2,  7],
+        [ 2,  8],
+        [ 2,  9],
+        [ 2, 13],
+        [ 2, 27],
+        [ 2, 28],
+        [ 2, 32],
+        [ 3,  0],
+        [ 3,  1],
+        [ 3,  2],
+        [ 3,  7],
+        [ 3, 12],
+        [ 3, 13],
+        [ 4,  0],
+        [ 4,  6],
+        [ 4, 10],
+        [ 5,  0],
+        [ 5,  6],
+        [ 5, 10],
+        [ 5, 16],
+        [ 6,  0],
+        [ 6,  4],
+        [ 6,  5],
+        [ 6, 16],
+        [ 7,  0],
+        [ 7,  1],
+        [ 7,  2],
+        [ 7,  3],
+        [ 8,  0],
+        [ 8,  2],
+        [ 8, 30],
+        [ 8, 32],
+        [ 8, 33],
+        [ 9,  2],
+        [ 9, 33],
+        [10,  0],
+        [10,  4],
+        [10,  5],
+        [11,  0],
+        [12,  0],
+        [12,  3],
+        [13,  0],
+        [13,  1],
+        [13,  2],
+        [13,  3],
+        [13, 33],
+        [14, 32],
+        [14, 33],
+        [15, 32],
+        [15, 33],
+        [16,  5],
+        [16,  6],
+        [17,  0],
+        [17,  1],
+        [18, 32],
+        [18, 33],
+        [19,  0],
+        [19,  1],
+        [19, 33],
+        [20, 32],
+        [20, 33],
+        [21,  0],
+        [21,  1],
+        [22, 32],
+        [22, 33],
+        [23, 25],
+        [23, 27],
+        [23, 29],
+        [23, 32],
+        [23, 33],
+        [24, 25],
+        [24, 27],
+        [24, 31],
+        [25, 23],
+        [25, 24],
+        [25, 31],
+        [26, 29],
+        [26, 33],
+        [27,  2],
+        [27, 23],
+        [27, 24],
+        [27, 33],
+        [28,  2],
+        [28, 31],
+        [28, 33],
+        [29, 23],
+        [29, 26],
+        [29, 32],
+        [29, 33],
+        [30,  1],
+        [30,  8],
+        [30, 32],
+        [30, 33],
+        [31,  0],
+        [31, 24],
+        [31, 25],
+        [31, 28],
+        [31, 32],
+        [31, 33],
+        [32,  2],
+        [32,  8],
+        [32, 14],
+        [32, 15],
+        [32, 18],
+        [32, 20],
+        [32, 22],
+        [32, 23],
+        [32, 29],
+        [32, 30],
+        [32, 31],
+        [32, 33],
+        [33,  8],
+        [33,  9],
+        [33, 13],
+        [33, 14],
+        [33, 15],
+        [33, 18],
+        [33, 19],
+        [33, 20],
+        [33, 22],
+        [33, 23],
+        [33, 26],
+        [33, 27],
+        [33, 28],
+        [33, 29],
+        [33, 30],
+        [33, 31],
+        [33, 32]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>By printing <code class="docutils literal notranslate"><span class="pre">edge_index</span></code>, we can understand how PyG represents graph connectivity internally.
+We can see that for each edge, <code class="docutils literal notranslate"><span class="pre">edge_index</span></code> holds a tuple of two node indices, where the first value describes the node index of the source node and the second value describes the node index of the destination node of an edge.</p>
+<p>This representation is known as the <strong>COO format (coordinate format)</strong> commonly used for representing sparse matrices.
+Instead of holding the adjacency information in a dense representation <span class="math notranslate nohighlight">\(\mathbf{A} \in \{ 0, 1 \}^{|\mathcal{V}| \times |\mathcal{V}|}\)</span>, PyG represents graphs sparsely, which refers to only holding the coordinates/values for which entries in <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> are non-zero.</p>
+<p>Importantly, PyG does not distinguish between directed and undirected graphs, and treats undirected graphs as a special case of directed graphs in which reverse edges exist for every entry in <code class="docutils literal notranslate"><span class="pre">edge_index</span></code>.</p>
+<p>We can further visualize the graph by converting it to the <code class="docutils literal notranslate"><span class="pre">networkx</span></code> library format, which implements, in addition to graph manipulation functionalities, powerful tools for visualization:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>from torch_geometric.utils import to_networkx
+
+G = to_networkx(data, to_undirected=True)
+visualize_graph(G, color=data.y)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/fbb0764f4e38a81185632d2228690f23d86814d9c40d35bd196b8b0b4a4c8ebd.png" src="_images/fbb0764f4e38a81185632d2228690f23d86814d9c40d35bd196b8b0b4a4c8ebd.png" />
+</div>
+</div>
+<section id="implementing-graph-neural-networks">
+<h2>Implementing Graph Neural Networks<a class="headerlink" href="#implementing-graph-neural-networks" title="Link to this heading">#</a></h2>
+<p>After learning about PyG’s data handling, it’s time to implement our first Graph Neural Network!</p>
+<p>For this, we will use on of the most simple GNN operators, the <strong>GCN layer</strong> (<a class="reference external" href="https://arxiv.org/abs/1609.02907">Kipf et al. (2017)</a>), which is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}_v^{(\ell + 1)} = \mathbf{W}^{(\ell + 1)} \sum_{w \in \mathcal{N}(v) \, \cup \, \{ v \}} \frac{1}{c_{w,v}} \cdot \mathbf{x}_w^{(\ell)}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{W}^{(\ell + 1)}\)</span> denotes a trainable weight matrix of shape <code class="docutils literal notranslate"><span class="pre">[num_output_features,</span> <span class="pre">num_input_features]</span></code> and <span class="math notranslate nohighlight">\(c_{w,v}\)</span> refers to a fixed normalization coefficient for each edge.</p>
+<p>PyG implements this layer via <a class="reference external" href="https://pytorch-geometric.readthedocs.io/en/latest/modules/nn.html#torch_geometric.nn.conv.GCNConv"><code class="docutils literal notranslate"><span class="pre">GCNConv</span></code></a>, which can be executed by passing in the node feature representation <code class="docutils literal notranslate"><span class="pre">x</span></code> and the COO graph connectivity representation <code class="docutils literal notranslate"><span class="pre">edge_index</span></code>.</p>
+<p>With this, we are ready to create our first Graph Neural Network by defining our network architecture in a <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code> class:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import torch
+from torch.nn import Linear
+from torch_geometric.nn import GCNConv
+
+
+class GCN(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        torch.manual_seed(1234)
+        self.conv1 = GCNConv(dataset.num_features, 4)
+        self.conv2 = GCNConv(4, 4)
+        self.conv3 = GCNConv(4, 2)
+        self.classifier = Linear(2, dataset.num_classes)
+
+    def forward(self, x, edge_index):
+        h = self.conv1(x, edge_index)
+        h = h.tanh()
+        h = self.conv2(h, edge_index)
+        h = h.tanh()
+        h = self.conv3(h, edge_index)
+        h = h.tanh()  # Final GNN embedding space.
+
+        # Apply a final (linear) classifier.
+        out = self.classifier(h)
+
+        return out, h
+
+model = GCN()
+print(model)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GCN(
+  (conv1): GCNConv(34, 4)
+  (conv2): GCNConv(4, 4)
+  (conv3): GCNConv(4, 2)
+  (classifier): Linear(in_features=2, out_features=4, bias=True)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, we first initialize all of our building blocks in <code class="docutils literal notranslate"><span class="pre">__init__</span></code> and define the computation flow of our network in <code class="docutils literal notranslate"><span class="pre">forward</span></code>.
+We first define and stack <strong>three graph convolution layers</strong>, which corresponds to aggregating 3-hop neighborhood information around each node (all nodes up to 3 “hops” away).
+In addition, the <code class="docutils literal notranslate"><span class="pre">GCNConv</span></code> layers reduce the node feature dimensionality to <span class="math notranslate nohighlight">\(2\)</span>, <em>i.e.</em>, <span class="math notranslate nohighlight">\(34 \rightarrow 4 \rightarrow 4 \rightarrow 2\)</span>. Each <code class="docutils literal notranslate"><span class="pre">GCNConv</span></code> layer is enhanced by a <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Tanh.html?highlight=tanh#torch.nn.Tanh">tanh</a> non-linearity.</p>
+<p>After that, we apply a single linear transformation (<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Linear.html?highlight=linear#torch.nn.Linear"><code class="docutils literal notranslate"><span class="pre">torch.nn.Linear</span></code></a>) that acts as a classifier to map our nodes to 1 out of the 4 classes/communities.</p>
+<p>We return both the output of the final classifier as well as the final node embeddings produced by our GNN.
+We proceed to initialize our final model via <code class="docutils literal notranslate"><span class="pre">GCN()</span></code>, and printing our model produces a summary of all its used sub-modules.</p>
+<section id="embedding-the-karate-club-network">
+<h3>Embedding the Karate Club Network<a class="headerlink" href="#embedding-the-karate-club-network" title="Link to this heading">#</a></h3>
+<p>Let’s take a look at the node embeddings produced by our GNN.
+Here, we pass in the initial node features <code class="docutils literal notranslate"><span class="pre">x</span></code> and the graph connectivity information <code class="docutils literal notranslate"><span class="pre">edge_index</span></code> to the model, and visualize its 2-dimensional embedding.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>model = GCN()
+
+_, h = model(data.x, data.edge_index)
+print(f&#39;Embedding shape: {list(h.shape)}&#39;)
+
+visualize_embedding(h, color=data.y)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Embedding shape: [34, 2]
+</pre></div>
+</div>
+<img alt="_images/277f45ea85d0364936d0faff0570583d15b17c7725544c4b6b5d251cbc68e0d7.png" src="_images/277f45ea85d0364936d0faff0570583d15b17c7725544c4b6b5d251cbc68e0d7.png" />
+</div>
+</div>
+<p>Remarkably, even before training the weights of our model, the model produces an embedding of nodes that closely resembles the community-structure of the graph.
+Nodes of the same color (community) are already closely clustered together in the embedding space, although the weights of our model are initialized <strong>completely at random</strong> and we have not yet performed any training so far!
+This leads to the conclusion that GNNs introduce a strong inductive bias, leading to similar embeddings for nodes that are close to each other in the input graph.</p>
+</section>
+<section id="training-on-the-karate-club-network">
+<h3>Training on the Karate Club Network<a class="headerlink" href="#training-on-the-karate-club-network" title="Link to this heading">#</a></h3>
+<p>But can we do better? Let’s look at an example on how to train our network parameters based on the knowledge of the community assignments of 4 nodes in the graph (one for each community):</p>
+<p>Since everything in our model is differentiable and parameterized, we can add some labels, train the model and observse how the embeddings react.
+Here, we make use of a semi-supervised or transductive learning procedure: We simply train against one node per class, but are allowed to make use of the complete input graph data.</p>
+<p>Training our model is very similar to any other PyTorch model.
+In addition to defining our network architecture, we define a loss critertion (here, <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html"><code class="docutils literal notranslate"><span class="pre">CrossEntropyLoss</span></code></a>) and initialize a stochastic gradient optimizer (here, <a class="reference external" href="https://pytorch.org/docs/stable/optim.html?highlight=adam#torch.optim.Adam"><code class="docutils literal notranslate"><span class="pre">Adam</span></code></a>).
+After that, we perform multiple rounds of optimization, where each round consists of a forward and backward pass to compute the gradients of our model parameters w.r.t. to the loss derived from the forward pass.
+If you are not new to PyTorch, this scheme should appear familar to you.
+Otherwise, the PyTorch docs provide <a class="reference external" href="https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#define-a-loss-function-and-optimizer">a good introduction on how to train a neural network in PyTorch</a>.</p>
+<p>Note that our semi-supervised learning scenario is achieved by the following line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">train_mask</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">train_mask</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>While we compute node embeddings for all of our nodes, we <strong>only make use of the training nodes for computing the loss</strong>.
+Here, this is implemented by filtering the output of the classifier <code class="docutils literal notranslate"><span class="pre">out</span></code> and ground-truth labels <code class="docutils literal notranslate"><span class="pre">data.y</span></code> to only contain the nodes in the <code class="docutils literal notranslate"><span class="pre">train_mask</span></code>.</p>
+<p>Let us now start training and see how our node embeddings evolve over time (best experienced by explicitely running the code):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import time
+from IPython.display import Javascript  # Restrict height of output cell.
+display(Javascript(&#39;&#39;&#39;google.colab.output.setIframeHeight(0, true, {maxHeight: 430})&#39;&#39;&#39;))
+
+model = GCN()
+criterion = torch.nn.CrossEntropyLoss()  # Define loss criterion.
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)  # Define optimizer.
+
+def train(data):
+    optimizer.zero_grad()  # Clear gradients.
+    out, h = model(data.x, data.edge_index)  # Perform a single forward pass.
+    loss = criterion(out[data.train_mask], data.y[data.train_mask])  # Compute the loss solely based on the training nodes.
+    loss.backward()  # Derive gradients.
+    optimizer.step()  # Update parameters based on gradients.
+    return loss, h
+
+for epoch in range(401):
+    loss, h = train(data)
+    if epoch % 10 == 0:
+        visualize_embedding(h, color=data.y, epoch=epoch, loss=loss)
+        time.sleep(0.3)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">google.colab.output.setIframeHeight(0, true, {maxHeight: 430})</script><img alt="_images/19a479fdcc214bacfb8da651467a41386dcccb2689df91430cb413c7c4d04c0d.png" src="_images/19a479fdcc214bacfb8da651467a41386dcccb2689df91430cb413c7c4d04c0d.png" />
+<img alt="_images/62af4710576d192ae3845b23d4b2f9b7e059b785f836de2aead693ca4848d47b.png" src="_images/62af4710576d192ae3845b23d4b2f9b7e059b785f836de2aead693ca4848d47b.png" />
+<img alt="_images/e6f80bc89d77a3267a1a62c867b6ad714f318ef5e9476afe32f7d9418959a1d9.png" src="_images/e6f80bc89d77a3267a1a62c867b6ad714f318ef5e9476afe32f7d9418959a1d9.png" />
+<img alt="_images/ba84ae8bfe9c3d2daae6ccad53a06b475843462e75f324827a957538dc85565b.png" src="_images/ba84ae8bfe9c3d2daae6ccad53a06b475843462e75f324827a957538dc85565b.png" />
+<img alt="_images/df09a6abf1eafe95f42ddcdee2de465515e9f9053451a61ba73cb82d71362780.png" src="_images/df09a6abf1eafe95f42ddcdee2de465515e9f9053451a61ba73cb82d71362780.png" />
+<img alt="_images/bced372d54023f6b5d23b35a67d70e037d4edba39b1056d86d4da232fae0cfd2.png" src="_images/bced372d54023f6b5d23b35a67d70e037d4edba39b1056d86d4da232fae0cfd2.png" />
+<img alt="_images/59e816182eeadc21f1e4210ea265949a9fc73dcecdebcdfdf05e04d7c95caf47.png" src="_images/59e816182eeadc21f1e4210ea265949a9fc73dcecdebcdfdf05e04d7c95caf47.png" />
+<img alt="_images/a7475b3e8dab4be29b0fff3212d0a6e95a3e867a603cdbb8bc3e1c194ba4571b.png" src="_images/a7475b3e8dab4be29b0fff3212d0a6e95a3e867a603cdbb8bc3e1c194ba4571b.png" />
+<img alt="_images/c99db075c60e3786ebc62279cb8333b74b375dc615d91dd6d6df73bcf537c41c.png" src="_images/c99db075c60e3786ebc62279cb8333b74b375dc615d91dd6d6df73bcf537c41c.png" />
+<img alt="_images/8a2ebdb0efbe32944b9b770694c9b4def6b891d2a31117872cb6189bdc028da4.png" src="_images/8a2ebdb0efbe32944b9b770694c9b4def6b891d2a31117872cb6189bdc028da4.png" />
+<img alt="_images/af2789d7b7f58df65060ca181b3a39406c0ff7ebfc6774152259eca795ddefd3.png" src="_images/af2789d7b7f58df65060ca181b3a39406c0ff7ebfc6774152259eca795ddefd3.png" />
+<img alt="_images/9d7c8284bc40631444593797581f7b13c99e439d28044b9b817d4c9d6c2e3f48.png" src="_images/9d7c8284bc40631444593797581f7b13c99e439d28044b9b817d4c9d6c2e3f48.png" />
+<img alt="_images/4d91fe2d2084ba8eea7ff9570bc95acdd56ad4b06292c68c013b5b693b23b637.png" src="_images/4d91fe2d2084ba8eea7ff9570bc95acdd56ad4b06292c68c013b5b693b23b637.png" />
+<img alt="_images/d5c9f0cf3f981cea9316ab1a17ea772eb5a07ec7dcf381133a4a7aa60c126bd9.png" src="_images/d5c9f0cf3f981cea9316ab1a17ea772eb5a07ec7dcf381133a4a7aa60c126bd9.png" />
+<img alt="_images/0d263f3b560ecdce692addc07e7d47987120e49252c6e7a22a0da725dc1a00b7.png" src="_images/0d263f3b560ecdce692addc07e7d47987120e49252c6e7a22a0da725dc1a00b7.png" />
+<img alt="_images/b1a553ac7b5f9cf98ef5f069d4d1e30df28066f58e88c3a7964772bd3d0b99d3.png" src="_images/b1a553ac7b5f9cf98ef5f069d4d1e30df28066f58e88c3a7964772bd3d0b99d3.png" />
+<img alt="_images/44aa0121e95e767cd240c1f4a5e76aaa004e22bdd550f4e8d2ea47988863adf8.png" src="_images/44aa0121e95e767cd240c1f4a5e76aaa004e22bdd550f4e8d2ea47988863adf8.png" />
+<img alt="_images/05aaaa52923e226e167c2538c941a7b73ffdb28cb6c4e3a048c8ec9dba43222c.png" src="_images/05aaaa52923e226e167c2538c941a7b73ffdb28cb6c4e3a048c8ec9dba43222c.png" />
+<img alt="_images/a5ae419df4d84ce72d21fd37444decd1363c7c6559c770a4aee3c2214ca0d623.png" src="_images/a5ae419df4d84ce72d21fd37444decd1363c7c6559c770a4aee3c2214ca0d623.png" />
+<img alt="_images/dba77051a5362ea7978eb02db7e9a445ba2c5235a217e29ab122e2c75456eff1.png" src="_images/dba77051a5362ea7978eb02db7e9a445ba2c5235a217e29ab122e2c75456eff1.png" />
+<img alt="_images/f21c8c18a043871c6fd22b1548f75402cad8144cffa121c886703556aee1cdea.png" src="_images/f21c8c18a043871c6fd22b1548f75402cad8144cffa121c886703556aee1cdea.png" />
+<img alt="_images/f5177e929f95970b69c2aeaf73090ff86cee00f42d6c8f54451219d977ca453d.png" src="_images/f5177e929f95970b69c2aeaf73090ff86cee00f42d6c8f54451219d977ca453d.png" />
+<img alt="_images/5db2415ef9b1a0509f22edbeb15d64cafe1ab8919a21712eecddfb2182847912.png" src="_images/5db2415ef9b1a0509f22edbeb15d64cafe1ab8919a21712eecddfb2182847912.png" />
+<img alt="_images/c3d364cdc5d609a2df255556f144e9892c51ca49766b3a970d016b188a8fe4f0.png" src="_images/c3d364cdc5d609a2df255556f144e9892c51ca49766b3a970d016b188a8fe4f0.png" />
+<img alt="_images/cefbd14065165fcb0e8aabda754dd0c19a29eb55daa5548aa32e0616c2263b56.png" src="_images/cefbd14065165fcb0e8aabda754dd0c19a29eb55daa5548aa32e0616c2263b56.png" />
+<img alt="_images/c8842b85d9eeecc0b021c6613c1bf0f0a74f89f3846919277d87ef4fb2bdb7d0.png" src="_images/c8842b85d9eeecc0b021c6613c1bf0f0a74f89f3846919277d87ef4fb2bdb7d0.png" />
+<img alt="_images/82787a47e4ba1bab4b2eb3d1a82e0450540a657fddce198641e86e0287b530de.png" src="_images/82787a47e4ba1bab4b2eb3d1a82e0450540a657fddce198641e86e0287b530de.png" />
+<img alt="_images/f35cd33de38f547350b4ed28f7d983b024406e6db71903b3dd4824514ff0e465.png" src="_images/f35cd33de38f547350b4ed28f7d983b024406e6db71903b3dd4824514ff0e465.png" />
+<img alt="_images/d7070ca42f84b5d46f2fe453b7b665b3f309b40f2efbf136a466988f7a6d0823.png" src="_images/d7070ca42f84b5d46f2fe453b7b665b3f309b40f2efbf136a466988f7a6d0823.png" />
+<img alt="_images/ca7a155bdc00d26d0be9b721efffe1d2d6f4d0b4d67b74364d83ae20774254ec.png" src="_images/ca7a155bdc00d26d0be9b721efffe1d2d6f4d0b4d67b74364d83ae20774254ec.png" />
+<img alt="_images/11b1952da0ff4cf00cec20e0ce29896ae238967f8e65e4d464290c7205196353.png" src="_images/11b1952da0ff4cf00cec20e0ce29896ae238967f8e65e4d464290c7205196353.png" />
+<img alt="_images/b9499f9b7df6f403602517643b7082537e30ab67df84670545139b52e3481c38.png" src="_images/b9499f9b7df6f403602517643b7082537e30ab67df84670545139b52e3481c38.png" />
+<img alt="_images/1fc54c42f6a84e4e271736de79eef51b3fefba4f3c261462007a1bef73c10e6c.png" src="_images/1fc54c42f6a84e4e271736de79eef51b3fefba4f3c261462007a1bef73c10e6c.png" />
+<img alt="_images/57746d93d43a875a034bb62fcf0269d73eed88d7f8d0343f86c8822b5e8a6644.png" src="_images/57746d93d43a875a034bb62fcf0269d73eed88d7f8d0343f86c8822b5e8a6644.png" />
+<img alt="_images/5ee2b90c3a0042c4bed704323fcc4ca53c5f0c2322a2c31da011052b72c22870.png" src="_images/5ee2b90c3a0042c4bed704323fcc4ca53c5f0c2322a2c31da011052b72c22870.png" />
+<img alt="_images/73370260615762bed0e1a9bdc4e3e553804dfdf47fa9d314f64c0e98be543a48.png" src="_images/73370260615762bed0e1a9bdc4e3e553804dfdf47fa9d314f64c0e98be543a48.png" />
+<img alt="_images/49de8f8271e40c34e23f6965a9babe6a891af661b43cd3fd0273df893e7f518d.png" src="_images/49de8f8271e40c34e23f6965a9babe6a891af661b43cd3fd0273df893e7f518d.png" />
+<img alt="_images/eb2733ee292650f6e7ada92983e03808c0e62137d7bd04b8797812f48141a876.png" src="_images/eb2733ee292650f6e7ada92983e03808c0e62137d7bd04b8797812f48141a876.png" />
+<img alt="_images/120b311c950b23a2d140c887e849a0a6e86eee20e9c06e1f8762f43b639a1533.png" src="_images/120b311c950b23a2d140c887e849a0a6e86eee20e9c06e1f8762f43b639a1533.png" />
+<img alt="_images/8d4104f4f1f55872210fec3e33a9ad9c022ff6fe426fc7dddf52d3d3f6b30aad.png" src="_images/8d4104f4f1f55872210fec3e33a9ad9c022ff6fe426fc7dddf52d3d3f6b30aad.png" />
+<img alt="_images/2f1f26c4b505f74320055ae929dcb9eb64611fdef70e8cad2df2a0fcb97c8536.png" src="_images/2f1f26c4b505f74320055ae929dcb9eb64611fdef70e8cad2df2a0fcb97c8536.png" />
+</div>
+</div>
+<p>As one can see, our 3-layer GCN model manages to linearly separating the communities and classifying most of the nodes correctly.</p>
+<p>Furthermore, we did this all with a few lines of code, thanks to the PyTorch Geometric library which helped us out with data handling and GNN implementations.</p>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
+<p>This concludes the first introduction into the world of GNNs and PyTorch Geometric.
+In the follow-up sessions, you will learn how to achieve state-of-the-art classification results on a number of real-world graph datasets.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Graph Neural Networks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="2_Node_Classification.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Node Classification with Graph Neural Networks</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-graph-neural-networks">Implementing Graph Neural Networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#embedding-the-karate-club-network">Embedding the Karate Club Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-on-the-karate-club-network">Training on the Karate Club Network</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
