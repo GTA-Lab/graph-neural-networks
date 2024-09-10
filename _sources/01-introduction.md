@@ -10,7 +10,7 @@
 
 ![](img/ML_vs_DL.jpg)
 
-See: [Deep Learning course at CS-FUM](https://fum-cs.github.io/dl/)
+See: [Deep Learning course at FUM-CS](https://fum-cs.github.io/dl/)
 
 ![](img/Feature-Extraction-Techniques-in-Image-Processing-and-Graphs.png)
 
