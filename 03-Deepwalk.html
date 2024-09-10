@@ -1,0 +1,1286 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Creating Node Representations with DeepWalk &#8212; GNNs</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-Deepwalk';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Improving Embeddings with Biased Random Walks in Node2Vec" href="04-Node2Vec.html" />
+    <link rel="prev" title="Introduction to Network Analysis with NetworkX" href="02-Introduction-to-NetworkX.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="GNNs - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="GNNs - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Graph Neural Networks
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-Introduction-to-NetworkX.html">Introduction to Network Analysis with NetworkX</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Creating Node Representations with DeepWalk</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="04-Node2Vec.html">Improving Embeddings with Biased Random Walks in Node2Vec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-Including-Node-Features-with-MLP-and-GNN.html">Including Node Features with MLP &amp; GNNs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-Introducing-GNNs.html">Normalizing Features with Graph Convolutional Networks</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/fum-cs/graph-neural-networks/blob/main/notebooks/03-Deepwalk.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/graph-neural-networks" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/graph-neural-networks/issues/new?title=Issue%20on%20page%20%2F03-Deepwalk.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/03-Deepwalk.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Creating Node Representations with DeepWalk</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Creating Node Representations with DeepWalk</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#node-embedding">Node Embedding</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deepwalk-and-skip-gram">DeepWalk and Skip-Gram</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-walks">Random Walks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skip-gram">Skip-Gram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deepwalk">DeepWalk</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#skip-gram-model-in-natural-language-processing">Skip-Gram Model in Natural Language Processing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cbow-and-skip-gram">CBOW and Skip-gram</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started-with-word2vec-in-gensim-and-making-it-work">Getting started with Word2Vec in Gensim and making it work!</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-practical-example-of-word-embedding">A practical example of word embedding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gensim-nltk">Gensim &amp; NLTK</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#random-walk">Random walk</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#erdos-renyi-model">Erdős-Rényi Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-erdos-renyi-model">Overview of the Erdős-Rényi Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#karate-club-example">Karate Club Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-the-nodes-with-k-means-the-adjacency-matrix-is-used-as-the-features-matrix">Clustering the nodes with k-means. The adjacency matrix is used as the features’ matrix.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-the-nodes-with-k-means-the-node-degrees-are-used-as-the-node-features">Clustering the nodes with k-means. The node degrees are used as the node features.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-walk"><strong>Deep Walk</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-node-embeddings-in-2-dimensions">Visualizing node embeddings in 2 dimensions</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#and-now-the-power-of-random-walk-and-node-embedding">And now the power of random walk and node embedding</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-classic-classification-methods-on-created-node-embeddings-such-as-random-forest">Using classic classification methods on created node embeddings, such as random forest</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="creating-node-representations-with-deepwalk">
+<h1>Creating Node Representations with DeepWalk<a class="headerlink" href="#creating-node-representations-with-deepwalk" title="Link to this heading">#</a></h1>
+<section id="node-embedding">
+<h2>Node Embedding<a class="headerlink" href="#node-embedding" title="Link to this heading">#</a></h2>
+<p>Re-visit a layer of a simple GNN figure mentioned in <a class="reference external" href="https://gta-lab.github.io/gnn-intro/">A Gentle Introduction to Graph Neural Networks</a>:</p>
+<p><img alt="" src="_images/arch_gcn.40871750.png" /></p>
+<p>A single layer of a simple GNN. A graph is the input, and each component (V,E,U) gets updated by a MLP to produce a new graph. Each function subscript indicates a separate function for a different graph attribute at the n-th layer of a GNN model.</p>
+<p>The goal of node embedding is encoding nodes so that similarity in the embedding space (e.g., dot product) approximates similarity in the original network.</p>
+<p>See:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://fum-cs.github.io/fds/ADS/">Johnson–Lindenstrauss lemma, at Foundations of Data Science course of FUM</a></p></li>
+<li><p>Weisfeiler Leman graph isomorphism test in <a class="reference external" href="https://arxiv.org/pdf/1810.00826">How Powerful are Graph Neural Networks?</a>,  ICLR 2019, by: Keyulu Xu, Weihua Hu, Jure Leskovec, Stefanie Jegelka</p></li>
+</ul>
+<p><img alt="" src="_images/Node-Embedding.png" /></p>
+<p><img alt="" src="_images/walks-on-graphs-and-skip-gram.png" /></p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="deepwalk-and-skip-gram">
+<h1>DeepWalk and Skip-Gram<a class="headerlink" href="#deepwalk-and-skip-gram" title="Link to this heading">#</a></h1>
+<section id="random-walks">
+<h2>Random Walks<a class="headerlink" href="#random-walks" title="Link to this heading">#</a></h2>
+<p>A random walk is a mathematical model that describes a path composed of a succession of random steps. In the context of graph theory, a random walk on a graph is a sequence of vertices where each vertex in the sequence is chosen randomly from the neighbors of the previous vertex.</p>
+</section>
+<section id="skip-gram">
+<h2>Skip-Gram<a class="headerlink" href="#skip-gram" title="Link to this heading">#</a></h2>
+<p>The skip-gram model is a popular technique in natural language processing (NLP) for learning word embeddings. It aims to learn a vector representation of each word in a corpus, such that the vectors of similar words are close to each other in the vector space. In the skip-gram model, the objective is to predict the context words (i.e., words that appear within a certain window size around a target word) given the target word.</p>
+</section>
+<section id="deepwalk">
+<h2>DeepWalk<a class="headerlink" href="#deepwalk" title="Link to this heading">#</a></h2>
+<p>DeepWalk is a graph embedding technique that uses random walks and the skip-gram model to learn low-dimensional representations of vertices in a graph. The key idea behind DeepWalk is to treat the sequences of vertices obtained from random walks on a graph as if they were sentences in a document, and then apply the skip-gram model to learn the vertex embeddings.</p>
+<p>The DeepWalk algorithm consists of the following steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Generate random walks</strong>: For each vertex in the graph, perform multiple random walks starting from that vertex. The length of each random walk is a hyperparameter.</p></li>
+<li><p><strong>Apply skip-gram</strong>: Treat the sequences of vertices obtained from the random walks as “sentences” and apply the skip-gram model to learn the vertex embeddings. The objective is to predict the context vertices given a target vertex.</p></li>
+<li><p><strong>Learn vertex embeddings</strong>: The skip-gram model learns a vector representation for each vertex in the graph, such that vertices that appear in similar contexts (i.e., have similar neighborhoods) have similar vector representations.</p></li>
+</ol>
+<p>The intuition behind DeepWalk is that vertices that are close in the graph (i.e., share many common neighbors) will tend to appear in similar contexts during the random walks, and thus will have similar vector representations learned by the skip-gram model.</p>
+<p>By combining random walks and the skip-gram model, DeepWalk is able to learn low-dimensional, continuous representations of vertices that capture the structural information of the graph. These vertex embeddings can then be used as features for various graph-based tasks, such as node classification, link prediction, and graph visualization.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="skip-gram-model-in-natural-language-processing">
+<h1>Skip-Gram Model in Natural Language Processing<a class="headerlink" href="#skip-gram-model-in-natural-language-processing" title="Link to this heading">#</a></h1>
+<p>This following images depicts the concept of the <strong>skip-gram model</strong>, which is a popular technique in natural language processing (NLP) for learning word embeddings. The skip-gram model aims to learn a vector representation of each word in a corpus, such that the vectors of similar words are close to each other in the vector space.</p>
+<p>The image shows the skip-gram model in the context of a sequence of words, where the objective is to predict the context words (i.e., words that appear within a certain window size around a target word) given the target word.</p>
+<p>The central part of the image, labeled <span class="math notranslate nohighlight">\( f(x) \)</span>, represents the skip-gram model, which takes the current word <span class="math notranslate nohighlight">\( W_t \)</span> as input and tries to predict the surrounding context words, such as <span class="math notranslate nohighlight">\( W_{t-2} \)</span>, <span class="math notranslate nohighlight">\( W_{t-1} \)</span>, <span class="math notranslate nohighlight">\( W_{t+1} \)</span>, and <span class="math notranslate nohighlight">\( W_{t+2} \)</span>.</p>
+<p>This process can be viewed as a Markov model, where the prediction of the context words depends only on the current word and not on the entire sequence of words. The probabilities of the context words, denoted as</p>
+<div class="math notranslate nohighlight">
+\[
+P(W_{t-2} | W_t), \quad P(W_{t-1} | W_t), \quad P(W_{t+1} | W_t), \quad P(W_{t+2} | W_t)
+\]</div>
+<p>are the outputs of the skip-gram model.</p>
+<p>By training the skip-gram model on a large corpus of text, the model learns to capture the semantic and syntactic relationships between words, resulting in word embeddings that can be used as features for various NLP tasks, such as text classification, named entity recognition, and machine translation.</p>
+<p><img alt="" src="_images/predict-words.jpeg" /></p>
+<p>For more information about the role of Markov Model in the learning and language models, see <a class="reference external" href="https://fum-cs.github.io/machine-learning/">Machine Learning section of Learning Theory Course at FUM</a>.</p>
+<section id="cbow-and-skip-gram">
+<h2>CBOW and Skip-gram<a class="headerlink" href="#cbow-and-skip-gram" title="Link to this heading">#</a></h2>
+<p><img alt="" src="_images/The-CBOW-and-Skip-gram-architecture-of-word2vec.jpg" /></p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="getting-started-with-word2vec-in-gensim-and-making-it-work">
+<h1>Getting started with Word2Vec in Gensim and making it work!<a class="headerlink" href="#getting-started-with-word2vec-in-gensim-and-making-it-work" title="Link to this heading">#</a></h1>
+<p>The idea behind Word2Vec is pretty simple. We are making and assumption that you can tell the meaning of a word by the company it keeps. This is analogous to the saying <em>show me your friends, and I’ll tell who you are</em>. So if you have two words that have very similar neighbors (i.e. the usage context is about the same), then these words are probably quite similar in meaning or are at least highly related.</p>
+<p>In the following, you will learn how to use the Gensim implementation of Word2Vec and actually get it to work!</p>
+<section id="a-practical-example-of-word-embedding">
+<h2>A practical example of word embedding<a class="headerlink" href="#a-practical-example-of-word-embedding" title="Link to this heading">#</a></h2>
+<p>Let’s start with a section of <em>Anne of Green Gables</em>:</p>
+<blockquote>
+<div><p>As much as she hated Gilbert, however, did she love Diana, with all the
+love of her passionate little heart, equally intense in its likes and
+dislikes. One evening Marilla, coming in from the orchard with a basket
+of apples, found Anne sitting along by the east window in the twilight,
+crying bitterly.
+“Whatever’s the matter now, Anne?” she asked.
+“It’s about Diana,” sobbed Anne luxuriously. “I love Diana so, Marilla.
+I cannot ever live without her. But I know very well when we grow up
+that Diana will get married and go away and leave me. And oh, what shall
+I do? I hate her husband–I just hate him furiously. I’ve been imagining
+it all out–the wedding and everything–Diana dressed in snowy garments,
+with a veil, and looking as beautiful and regal as a queen; and me the
+bridesmaid, with a lovely dress too, and puffed sleeves, but with a
+breaking heart hid beneath my smiling face. And then bidding Diana
+goodbye-e-e–” Here Anne broke down entirely and wept with increasing
+bitterness.
+Marilla turned quickly away to hide her twitching face; but it was no
+use; she collapsed on the nearest chair and burst into such a hearty and
+unusual peal of laughter that Matthew, crossing the yard outside, halted
+in amazement. When had he heard Marilla laugh like that before?
+“Well, Anne Shirley,” said Marilla as soon as she could speak, “if you
+must borrow trouble, for pity’s sake borrow it handier home. I should
+think you had an imagination, sure enough.”</p>
+</div></blockquote>
+<blockquote>
+<div><p>— Lucy Maud Montgomery, <em>Anne of Green Gables</em></p>
+</div></blockquote>
+<p><img alt="" src="_images/Anne-Chapter-15-last-page.jpg" /></p>
+</section>
+<section id="gensim-nltk">
+<h2>Gensim &amp; NLTK<a class="headerlink" href="#gensim-nltk" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install nltk</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;As much as she hated Gilbert, however, did she love Diana, with all the</span>
+<span class="s2">love of her passionate little heart, equally intense in its likes and</span>
+<span class="s2">dislikes. One evening Marilla, coming in from the orchard with a basket</span>
+<span class="s2">of apples, found Anne sitting along by the east window in the twilight,</span>
+<span class="s2">crying bitterly.</span>
+<span class="s2">“Whatever’s the matter now, Anne?” she asked.</span>
+<span class="s2">“It’s about Diana,” sobbed Anne luxuriously. “I love Diana so, Marilla.</span>
+<span class="s2">I cannot ever live without her. But I know very well when we grow up</span>
+<span class="s2">that Diana will get married and go away and leave me. And oh, what shall</span>
+<span class="s2">I do? I hate her husband--I just hate him furiously. I’ve been imagining</span>
+<span class="s2">it all out--the wedding and everything--Diana dressed in snowy garments,</span>
+<span class="s2">with a veil, and looking as beautiful and regal as a queen; and me the</span>
+<span class="s2">bridesmaid, with a lovely dress too, and puffed sleeves, but with a</span>
+<span class="s2">breaking heart hid beneath my smiling face. And then bidding Diana</span>
+<span class="s2">goodbye-e-e--” Here Anne broke down entirely and wept with increasing</span>
+<span class="s2">bitterness.</span>
+<span class="s2">Marilla turned quickly away to hide her twitching face; but it was no</span>
+<span class="s2">use; she collapsed on the nearest chair and burst into such a hearty and</span>
+<span class="s2">unusual peal of laughter that Matthew, crossing the yard outside, halted</span>
+<span class="s2">in amazement. When had he heard Marilla laugh like that before?</span>
+<span class="s2">“Well, Anne Shirley,” said Marilla as soon as she could speak, “if you</span>
+<span class="s2">must borrow trouble, for pity’s sake borrow it handier home. I should</span>
+<span class="s2">think you had an imagination, sure enough.”</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gensim.models.word2vec</span> <span class="kn">import</span> <span class="n">Word2Vec</span>
+
+<span class="c1"># Create Word2Vec</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">([</span><span class="n">text</span><span class="p">],</span>
+                 <span class="n">sg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="c1"># Skip-gram</span>
+                 <span class="n">vector_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                 <span class="n">min_count</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                 <span class="n">window</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># Train model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">([</span><span class="n">text</span><span class="p">],</span>  <span class="n">total_words</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">positive</span><span class="o">=</span><span class="s2">&quot;Diana&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;her&#39;, 0.9902161359786987),
+ (&#39;she&#39;, 0.9899694919586182),
+ (&#39;wedding&#39;, 0.988711416721344),
+ (&#39;should&#39;, 0.9884231686592102),
+ (&#39;pity’s&#39;, 0.9849447011947632),
+ (&#39;but&#39;, 0.9848229885101318),
+ (&#39;east&#39;, 0.9828867316246033),
+ (&#39;hate&#39;, 0.9828394055366516),
+ (&#39;go&#39;, 0.9821310043334961),
+ (&#39;like&#39;, 0.9820447564125061)]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Apply the model to the whole book of Anne of Green Gables</p>
+<div class="cell tag_hide-input tag_hideCode docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
+<span class="kn">from</span> <span class="nn">gensim.models.word2vec</span> <span class="kn">import</span> <span class="n">Word2Vec</span>  
+<span class="kn">import</span> <span class="nn">string</span> 
+<span class="kn">import</span> <span class="nn">io</span>  
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;stopwords&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>  
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package stopwords to
+[nltk_data]     C:\Users\m.amintoosi\AppData\Roaming\nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fileName</span> <span class="o">=</span> <span class="s2">&quot;../data/Anne_of_Green_Gables.txt&quot;</span>  
+<span class="n">file</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>  
+<span class="n">book_text</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>  
+<span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  
+
+<span class="n">text</span> <span class="o">=</span> <span class="n">book_text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<span class="c1"># Remove stopwords  </span>
+<span class="n">stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">))</span>  
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">]</span>  
+<span class="c1"># Remove punctuation  </span>
+<span class="n">translator</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">+</span><span class="s2">&quot;”&quot;</span><span class="o">+</span><span class="s2">&quot;“&quot;</span><span class="p">)</span>  
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">translator</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">]</span> 
+
+<span class="c1"># Create Word2Vec  </span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">([</span><span class="n">text</span><span class="p">],</span>  
+                 <span class="n">sg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="c1"># Skip-gram  </span>
+                 <span class="n">vector_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>  
+                 <span class="n">min_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  
+                 <span class="n">window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  
+                 <span class="n">workers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  
+                 <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Shape of W_embed: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>  
+
+<span class="c1"># Train model  </span>
+<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">([</span><span class="n">text</span><span class="p">],</span> <span class="n">total_words</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>  
+
+<span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">positive</span><span class="o">=</span><span class="s2">&quot;Anne&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape of W_embed: (8920, 50)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;Marilla&#39;, 0.8268883228302002),
+ (&#39;said&#39;, 0.6982665657997131),
+ (&#39;faltered&#39;, 0.610625684261322),
+ (&#39;horrified&#39;, 0.6060405373573303),
+ (&#39;astonishment&#39;, 0.6010062098503113),
+ (&#39;spelled&#39;, 0.5995970964431763),
+ (&#39;I&#39;, 0.5941324830055237),
+ (&#39;fiddlesticks&#39;, 0.5927588939666748),
+ (&#39;Oooh&#39;, 0.5925849080085754),
+ (&#39;unsympathetic&#39;, 0.590878427028656)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">positive</span><span class="o">=</span><span class="s2">&quot;Shirley&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;mother’s&#39;, 0.8844769597053528),
+ (&#39;Yours&#39;, 0.8692860007286072),
+ (&#39;owner&#39;, 0.8639934659004211),
+ (&#39;father’s&#39;, 0.8601971864700317),
+ (&#39;Walter&#39;, 0.8578155636787415),
+ (&#39;remain&#39;, 0.8461606502532959),
+ (&#39;Bertha&#39;, 0.8234245777130127),
+ (&#39;respectfully&#39;, 0.817496120929718),
+ (&#39;Will&#39;, 0.8153164386749268),
+ (&#39;Call&#39;, 0.810065746307373)]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="random-walk">
+<h1>Random walk<a class="headerlink" href="#random-walk" title="Link to this heading">#</a></h1>
+<section id="erdos-renyi-model">
+<h2>Erdős-Rényi Model<a class="headerlink" href="#erdos-renyi-model" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nx.erdos_renyi_graph</span></code> is a function from the NetworkX library in Python that generates a random graph based on the Erdős-Rényi model. This model is one of the simplest and most widely studied random graph models.</p>
+<section id="overview-of-the-erdos-renyi-model">
+<h3>Overview of the Erdős-Rényi Model<a class="headerlink" href="#overview-of-the-erdos-renyi-model" title="Link to this heading">#</a></h3>
+<p>There are two primary formulations of the Erdős-Rényi model:</p>
+<ol class="arabic simple">
+<li><p><strong>G(n, p)</strong>: In this model, a graph is constructed by adding nodes one at a time (where ( n ) is the total number of nodes). Each possible edge between any pair of nodes is included independently with a probability ( p ).</p></li>
+<li><p><strong>G(n, m)</strong>: In this model, ( n ) nodes are connected by creating exactly ( m ) edges chosen uniformly at random from all possible edges that could exist between the nodes.</p></li>
+</ol>
+<p>The Erdős-Rényi random graphs are often used in various fields, including:</p>
+<ul class="simple">
+<li><p><strong>Network theory</strong>: To study the properties of random graphs.</p></li>
+<li><p><strong>Computer science</strong>: In algorithms related to networks and to simulate networks with random connections.</p></li>
+</ul>
+<p>Random graphs can help researchers understand the behavior of more complex structures and networks in real-world applications.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Create a graph</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">erdos_renyi_graph</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Plot graph</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                 <span class="n">pos</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">node_size</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+                 <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span>
+                 <span class="n">font_size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+                 <span class="n">font_color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span>
+                 <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\m.amintoosi\AppData\Roaming\Python\Python310\site-packages\networkx\drawing\nx_pylab.py:437: UserWarning: No data for colormapping provided via &#39;c&#39;. Parameters &#39;cmap&#39; will be ignored
+  node_collection = ax.scatter(
+</pre></div>
+</div>
+<img alt="_images/d291d22bc6d5e7b000ebf5b28d71eadd5a42f03f39883a4a23f5237d6a865773.png" src="_images/d291d22bc6d5e7b000ebf5b28d71eadd5a42f03f39883a4a23f5237d6a865773.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">random_walk</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+    <span class="n">walk</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">start</span><span class="p">)]</span>  <span class="c1"># starting node</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">start</span><span class="p">)]</span>
+        <span class="n">next_node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">walk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">next_node</span><span class="p">))</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">next_node</span>
+    
+    <span class="k">return</span> <span class="n">walk</span>
+
+<span class="c1"># Create a list of random walks</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random_walk</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random_walk</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;0&#39;, &#39;4&#39;, &#39;0&#39;, &#39;9&#39;]
+[&#39;6&#39;, &#39;3&#39;, &#39;4&#39;, &#39;9&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="karate-club-example">
+<h2>Karate Club Example<a class="headerlink" href="#karate-club-example" title="Link to this heading">#</a></h2>
+<p><img alt="" src="_images/karate_kid_raw_img.jpg" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">karate_club_graph</span><span class="p">()</span>
+
+<span class="c1"># Process labels (Mr. Hi = 0, Officer = 1)</span>
+<span class="n">true_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">)))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;club&#39;</span><span class="p">]</span>
+    <span class="n">true_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="s1">&#39;Officer&#39;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Plot graph</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                 <span class="n">pos</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">node_color</span><span class="o">=</span><span class="n">true_labels</span><span class="p">,</span>
+                 <span class="n">node_size</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+                 <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span>
+                 <span class="n">font_size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+                 <span class="n">font_color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span>
+                 <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/52aed4f3de34063b1cea1badf7dab798e943635fa4aa0113943a23a3902bfcb7.png" src="_images/52aed4f3de34063b1cea1badf7dab798e943635fa4aa0113943a23a3902bfcb7.png" />
+</div>
+</div>
+<section id="clustering-the-nodes-with-k-means-the-adjacency-matrix-is-used-as-the-features-matrix">
+<h3>Clustering the nodes with k-means. The adjacency matrix is used as the features’ matrix.<a class="headerlink" href="#clustering-the-nodes-with-k-means-the-adjacency-matrix-is-used-as-the-features-matrix" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>  
+
+
+<span class="c1"># Obtain features from the adjacency matrix (or use a different method for features)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">to_numpy_array</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Apply k-means clustering (let&#39;s choose 2 clusters for the Karate club graph)</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Plot graph with clusters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                 <span class="n">pos</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">node_color</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+                 <span class="n">node_size</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+                 <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span>
+                 <span class="n">font_size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+                 <span class="n">font_color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span>
+                 <span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;K-Means Clustering of the Karate Club Graph, using adjacency matrix&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0. 4. 5. ... 2. 0. 0.]
+ [4. 0. 6. ... 0. 0. 0.]
+ [5. 6. 0. ... 0. 2. 0.]
+ ...
+ [2. 0. 0. ... 0. 4. 4.]
+ [0. 0. 2. ... 4. 0. 5.]
+ [0. 0. 0. ... 4. 5. 0.]]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\m.amintoosi\AppData\Roaming\Python\Python310\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning: The default value of `n_init` will change from 10 to &#39;auto&#39; in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+</pre></div>
+</div>
+<img alt="_images/05fab019c527bdb03c0943b0218955801ccafdf1d728e87a3227f4cc09c83fee.png" src="_images/05fab019c527bdb03c0943b0218955801ccafdf1d728e87a3227f4cc09c83fee.png" />
+</div>
+</div>
+</section>
+<section id="clustering-the-nodes-with-k-means-the-node-degrees-are-used-as-the-node-features">
+<h3>Clustering the nodes with k-means. The node degrees are used as the node features.<a class="headerlink" href="#clustering-the-nodes-with-k-means-the-node-degrees-are-used-as-the-node-features" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="c1"># Extract node features (node degrees)  </span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">dict</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">degree</span><span class="p">())[</span><span class="n">node</span><span class="p">]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">])</span>  
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># Apply K-means clustering  </span>
+<span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Number of clusters  </span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  
+<span class="n">labels</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>  
+
+<span class="c1"># Plot graph with clusters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                 <span class="n">pos</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">node_color</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+                 <span class="n">node_size</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+                 <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span>
+                 <span class="n">font_size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+                 <span class="n">font_color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span>
+                 <span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;K-Means Clustering of the Karate Club Graph, using node degrees&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[16  9 10  6  3  4  4  4  5  2  3  1  2  5  2  2  2  2  2  3  2  2  2  5
+  3  3  2  4  3  4  4  6 12 17]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\m.amintoosi\AppData\Roaming\Python\Python310\site-packages\sklearn\cluster\_kmeans.py:1412: FutureWarning: The default value of `n_init` will change from 10 to &#39;auto&#39; in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+</pre></div>
+</div>
+<img alt="_images/f4e688963974b66ecd950a3b06189395f0306231ff02ede3c8a9cd622f898f98.png" src="_images/f4e688963974b66ecd950a3b06189395f0306231ff02ede3c8a9cd622f898f98.png" />
+</div>
+</div>
+<p>For an introduction to K-means clustering, see the <a class="reference external" href="https://fum-cs.github.io/cs-bsc-dm/">Data Minig Course at FUM</a></p>
+</section>
+</section>
+<section id="deep-walk">
+<h2><strong>Deep Walk</strong><a class="headerlink" href="#deep-walk" title="Link to this heading">#</a></h2>
+<p>Now, we use random walks to generate node features as sentences in word embedding and then use word2vec for node embedding (Deep Walk).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a list of random walks</span>
+<span class="n">walks</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">80</span><span class="p">):</span>
+        <span class="n">walks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random_walk</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Print the first random walk</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">walks</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;0&#39;, &#39;12&#39;, &#39;3&#39;, &#39;13&#39;, &#39;0&#39;, &#39;7&#39;, &#39;0&#39;, &#39;11&#39;, &#39;0&#39;, &#39;13&#39;, &#39;33&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gensim.models.word2vec</span> <span class="kn">import</span> <span class="n">Word2Vec</span> 
+<span class="c1"># Create Word2Vec</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">(</span><span class="n">walks</span><span class="p">,</span>
+                 <span class="n">hs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="c1"># Hierarchical softmax</span>
+                 <span class="n">sg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="c1"># Skip-gram</span>
+                 <span class="n">vector_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                 <span class="n">window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                 <span class="n">workers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Shape of embedding matrix: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Build vocabulary</span>
+<span class="n">model</span><span class="o">.</span><span class="n">build_vocab</span><span class="p">(</span><span class="n">walks</span><span class="p">)</span>
+
+<span class="c1"># Train model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">walks</span><span class="p">,</span> <span class="n">total_examples</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">corpus_count</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">report_delay</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape of embedding matrix: (34, 50)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(187238, 897600)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Most similar nodes</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Nodes that are the most similar to node 0:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">similarity</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">positive</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;   </span><span class="si">{</span><span class="n">similarity</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Similarity between two nodes</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Similarity between node 0 and 4: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;4&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nodes that are the most similar to node 0:
+   (&#39;10&#39;, 0.7029028534889221)
+   (&#39;17&#39;, 0.6832481026649475)
+   (&#39;11&#39;, 0.6811116337776184)
+   (&#39;4&#39;, 0.674858808517456)
+   (&#39;6&#39;, 0.6575378179550171)
+   (&#39;5&#39;, 0.6425192356109619)
+   (&#39;21&#39;, 0.6237736344337463)
+   (&#39;16&#39;, 0.6155098676681519)
+   (&#39;1&#39;, 0.5802515149116516)
+   (&#39;3&#39;, 0.5409675240516663)
+
+Similarity between node 0 and 4: 0.6748587489128113
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-node-embeddings-in-2-dimensions">
+<h2>Visualizing node embeddings in 2 dimensions<a class="headerlink" href="#visualizing-node-embeddings-in-2-dimensions" title="Link to this heading">#</a></h2>
+<p>For an introduction to PCA, see the <a class="reference external" href="https://fum-cs.github.io/fds">Foundations of Data Science Course at FUM</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+
+<span class="c1"># Preprocess word vectors and label</span>
+<span class="c1"># nodes_wv = np.array([model.wv.get_vector(str(i)) for i in range(len(model.wv))])</span>
+<span class="n">node_embeddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">)]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">])</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">true_labels</span><span class="p">)</span>
+
+<span class="c1"># Train TSNE</span>
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">learning_rate</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+            <span class="n">init</span><span class="o">=</span><span class="s1">&#39;pca&#39;</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">node_embeddings</span><span class="p">)</span>
+
+<span class="c1"># Plot TSNE</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tsne</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">tsne</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1003d9f67346892197ee922fbf36d71f92f79f8df83a492ee2a444b95eabae54.png" src="_images/1003d9f67346892197ee922fbf36d71f92f79f8df83a492ee2a444b95eabae54.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="and-now-the-power-of-random-walk-and-node-embedding">
+<h1>And now the power of random walk and node embedding<a class="headerlink" href="#and-now-the-power-of-random-walk-and-node-embedding" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Partition the nodes based on similarity to node 0 and node 33  </span>
+<span class="n">node_0_emb</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span>  
+<span class="n">node_33_emb</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="s1">&#39;33&#39;</span><span class="p">]</span>  
+<span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">node_embeddings</span> <span class="o">-</span> <span class="n">node_0_emb</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>  
+                     <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">node_embeddings</span> <span class="o">-</span> <span class="n">node_33_emb</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span><span class="o">.</span><span class="n">T</span>  
+<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  
+
+<span class="c1"># Plot the graph with partitioned nodes  </span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>  
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                 <span class="n">pos</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">node_color</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+                 <span class="n">node_size</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+                 <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span>
+                 <span class="n">font_size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+                 <span class="n">font_color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span>
+                 <span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Karate Club Graph Partitioned by Similarity to Nodes 0 and 33&#39;</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/8c8fed589154d81fb9ddde63bf6d5543e209f5b758bf5f825d5ffd375698d43e.png" src="_images/8c8fed589154d81fb9ddde63bf6d5543e209f5b758bf5f825d5ffd375698d43e.png" />
+</div>
+</div>
+<blockquote>
+<div><p>Note that the above result was achieved without any node features!</p>
+</div></blockquote>
+<section id="using-classic-classification-methods-on-created-node-embeddings-such-as-random-forest">
+<h2>Using classic classification methods on created node embeddings, such as random forest<a class="headerlink" href="#using-classic-classification-methods-on-created-node-embeddings-such-as-random-forest" title="Link to this heading">#</a></h2>
+<p>For an introduction to Random Forest, see the <a class="reference external" href="https://fum-cs.github.io/cs-bsc-dm/">Data Minig Course at FUM</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Create masks to train and test the model</span>
+<span class="n">train_mask</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">24</span><span class="p">]</span>
+<span class="n">test_mask</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">]</span>
+
+<span class="c1"># Train classifier</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">node_embeddings</span><span class="p">[</span><span class="n">train_mask</span><span class="p">],</span> <span class="n">true_labels</span><span class="p">[</span><span class="n">train_mask</span><span class="p">])</span>
+
+<span class="c1"># Evaluate accuracy</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">node_embeddings</span><span class="p">[</span><span class="n">test_mask</span><span class="p">])</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">true_labels</span><span class="p">[</span><span class="n">test_mask</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Accuracy = </span><span class="si">{</span><span class="n">acc</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy = 90.91%
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02-Introduction-to-NetworkX.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Introduction to Network Analysis with NetworkX</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04-Node2Vec.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Improving Embeddings with Biased Random Walks in Node2Vec</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Creating Node Representations with DeepWalk</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#node-embedding">Node Embedding</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deepwalk-and-skip-gram">DeepWalk and Skip-Gram</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-walks">Random Walks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skip-gram">Skip-Gram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deepwalk">DeepWalk</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#skip-gram-model-in-natural-language-processing">Skip-Gram Model in Natural Language Processing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cbow-and-skip-gram">CBOW and Skip-gram</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started-with-word2vec-in-gensim-and-making-it-work">Getting started with Word2Vec in Gensim and making it work!</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-practical-example-of-word-embedding">A practical example of word embedding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gensim-nltk">Gensim &amp; NLTK</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#random-walk">Random walk</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#erdos-renyi-model">Erdős-Rényi Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-erdos-renyi-model">Overview of the Erdős-Rényi Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#karate-club-example">Karate Club Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-the-nodes-with-k-means-the-adjacency-matrix-is-used-as-the-features-matrix">Clustering the nodes with k-means. The adjacency matrix is used as the features’ matrix.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-the-nodes-with-k-means-the-node-degrees-are-used-as-the-node-features">Clustering the nodes with k-means. The node degrees are used as the node features.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-walk"><strong>Deep Walk</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-node-embeddings-in-2-dimensions">Visualizing node embeddings in 2 dimensions</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#and-now-the-power-of-random-walk-and-node-embedding">And now the power of random walk and node embedding</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-classic-classification-methods-on-created-node-embeddings-such-as-random-forest">Using classic classification methods on created node embeddings, such as random forest</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

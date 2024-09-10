@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Graph Neural Networks &#8212; GNNs</title>
+    <title>Introduction &#8212; GNNs</title>
   
   
   
@@ -57,11 +57,12 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01-introduction';</script>
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="01-introduction.html" />
+    <link rel="next" title="Introduction to Network Analysis with NetworkX" href="02-Introduction-to-NetworkX.html" />
+    <link rel="prev" title="Graph Neural Networks" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -123,8 +124,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -141,7 +140,7 @@
 
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="intro.html">
   
   
   
@@ -172,14 +171,14 @@
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
                     Graph Neural Networks
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01-introduction.html">Introduction</a></li>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-Introduction-to-NetworkX.html">Introduction to Network Analysis with NetworkX</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html">Creating Node Representations with DeepWalk</a></li>
 
@@ -261,7 +260,7 @@
       
       
       
-      <li><a href="https://github.com/fum-cs/graph-neural-networks/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/fum-cs/graph-neural-networks/issues/new?title=Issue%20on%20page%20%2F01-introduction.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -291,7 +290,7 @@
       
       
       
-      <li><a href="_sources/intro.md" target="_blank"
+      <li><a href="_sources/01-introduction.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -375,7 +374,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Graph Neural Networks</h1>
+    <h1>Introduction</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -385,7 +384,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build">Build</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-deep-learning">Why Deep Learning?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-gnns">Intro to GNNs</a></li>
 </ul>
             </nav>
         </div>
@@ -398,46 +398,21 @@ document.write(`
                 <article class="bd-article">
                   
   <p><img alt="" src="_images/banner.png" /></p>
-<section class="tex2jax_ignore mathjax_ignore" id="graph-neural-networks">
-<h1>Graph Neural Networks<a class="headerlink" href="#graph-neural-networks" title="Link to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
 <p>2024 Instructor: <a class="reference external" href="http://mamintoosi.github.io">Mahmood Amintoosi</a></p>
 <hr class="docutils" />
-<p>Welcome to this hands-on workshop, where we’ll delve into the exciting world of Graph Neural Networks (GNNs)! GNNs have revolutionized Machine Learning by enabling effective analysis of complex graph-structured data. To help you get started, I’ve curated a concise guide (study sheet) that will introduce you to the fundamentals of GNNs and bring you up-to-speed with the latest advancements.</p>
-<p><strong>Some valuable resources to deepen our understanding of GNNs:</strong></p>
+<section id="why-deep-learning">
+<h2>Why Deep Learning?<a class="headerlink" href="#why-deep-learning" title="Link to this heading">#</a></h2>
+<p><img alt="" src="_images/ML_vs_DL.jpg" /></p>
+<p>See: <a class="reference external" href="https://fum-cs.github.io/dl/">Deep Learning course at CS-FUM</a></p>
+<p><img alt="" src="_images/Feature-Extraction-Techniques-in-Image-Processing-and-Graphs.png" /></p>
+</section>
+<section id="intro-to-gnns">
+<h2>Intro to GNNs<a class="headerlink" href="#intro-to-gnns" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://gta-lab.github.io/gnn-intro/">Gentle Introduction to GNNs</a>  (by Distill)</p></li>
 <li><p><a class="reference external" href="https://gta-lab.github.io/understanding-gnns/">Understanding Convolutions on Graphs</a> (by Distill)</p></li>
-<li><p><a class="reference external" href="https://rish-16.github.io/posts/gnn-math/">Math Behind Graph Neural Networks</a> (by Rishabh Anand)</p></li>
-</ul>
-<p><strong>Our main source book is: Hands-on graph neural networks using Python</strong></p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://library-search.open.ac.uk/discovery/fulldisplay?vid=44OPN_INST:VU1&amp;amp;search_scope=MyInst_and_CI&amp;amp;tab=Everything&amp;amp;docid=alma9953021868502316&amp;amp;lang=en&amp;amp;context=L&amp;amp;adaptor=Local%20Search%20Engine&amp;amp;query=sub,exact,%20Python%20,AND&amp;amp;mode=advanced&amp;amp;offset=30">Hands-on graph neural networks using Python</a> : practical techniques and architectures for building powerful graph and deep learning apps with Pytorch
-Labonne, Maxime, 2023. <a class="reference external" href="https://fumdrive.um.ac.ir/index.php/s/5zzd9BcgLW5t23B">PDF</a></p></li>
-<li><p><a class="reference external" href="https://github.com/PacktPublishing/Hands-On-Graph-Neural-Networks-Using-Python">Github of the book</a></p></li>
-</ul>
-<p><strong>Some hands-on coding exercises using PyTorch to implement GNNs:</strong></p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="01-introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02-Introduction-to-NetworkX.html">Introduction to Network Analysis with NetworkX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html">Creating Node Representations with DeepWalk</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html#deepwalk-and-skip-gram">DeepWalk and Skip-Gram</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html#skip-gram-model-in-natural-language-processing">Skip-Gram Model in Natural Language Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html#getting-started-with-word2vec-in-gensim-and-making-it-work">Getting started with Word2Vec in Gensim and making it work!</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html#random-walk">Random walk</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html#and-now-the-power-of-random-walk-and-node-embedding">And now the power of random walk and node embedding</a></li>
-<li class="toctree-l1"><a class="reference internal" href="04-Node2Vec.html">Improving Embeddings with Biased Random Walks in Node2Vec</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05-Including-Node-Features-with-MLP-and-GNN.html">Including Node Features with MLP &amp; GNNs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06-Introducing-GNNs.html">Normalizing Features with Graph Convolutional Networks</a></li>
-</ul>
-</div>
-<hr class="docutils" />
-<p>This repository incorporates materials and inspiration from the <a class="reference external" href="https://pytorch-geometric.readthedocs.io">PyTorch-Geometric</a> documentation and <a class="reference external" href="https://github.com/PacktPublishing/Hands-On-Graph-Neural-Networks-Using-Python">Hands-on graph neural networks using Python</a> book. We acknowledge the valuable resources provided by these resources, which have been essential in the development of this tutorial.</p>
-<section id="build">
-<h2>Build<a class="headerlink" href="#build" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>jupyter-book build ./</p></li>
-<li><p>ghp-import -n -p -f ./_build/html</p></li>
 </ul>
 </section>
 </section>
@@ -472,12 +447,21 @@ Labonne, Maxime, 2023. <a class="reference external" href="https://fumdrive.um.a
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Graph Neural Networks</p>
+      </div>
+    </a>
     <a class="right-next"
-       href="01-introduction.html"
+       href="02-Introduction-to-NetworkX.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Introduction</p>
+        <p class="prev-next-title">Introduction to Network Analysis with NetworkX</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -497,7 +481,8 @@ Labonne, Maxime, 2023. <a class="reference external" href="https://fumdrive.um.a
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build">Build</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-deep-learning">Why Deep Learning?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-gnns">Intro to GNNs</a></li>
 </ul>
   </nav></div>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction: Hands-on Graph Neural Networks &#8212; GNNs</title>
+    <title>Hands-on Graph Neural Networks &#8212; GNNs</title>
   
   
   
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -59,12 +59,10 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '1_Introduction';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'App-1_Hands-on_Graph_Neural_Networks';</script>
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Node Classification with Graph Neural Networks" href="2_Node_Classification.html" />
-    <link rel="prev" title="Graph Neural Networks" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -126,6 +124,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -179,11 +179,18 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction: Hands-on Graph Neural Networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="2_Node_Classification.html">Node Classification with Graph Neural Networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="3_Graph_Classification.html">Graph Classification with Graph Neural Networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="4_Scaling_GNNs.html">Scaling Graph Neural Networks</a></li>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-Introduction-to-NetworkX.html">Introduction to Network Analysis with NetworkX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html">Creating Node Representations with DeepWalk</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="04-Node2Vec.html">Improving Embeddings with Biased Random Walks in Node2Vec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-Including-Node-Features-with-MLP-and-GNN.html">Including Node Features with MLP &amp; GNNs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-Introducing-GNNs.html">Normalizing Features with Graph Convolutional Networks</a></li>
 </ul>
 
     </div>
@@ -238,7 +245,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/fum-cs/graph-neural-networks/blob/main/notebooks/1_Introduction.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/fum-cs/graph-neural-networks/blob/main/notebooks/App-1_Hands-on_Graph_Neural_Networks.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -286,7 +293,7 @@
       
       
       
-      <li><a href="https://github.com/fum-cs/graph-neural-networks/issues/new?title=Issue%20on%20page%20%2F1_Introduction.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/fum-cs/graph-neural-networks/issues/new?title=Issue%20on%20page%20%2FApp-1_Hands-on_Graph_Neural_Networks.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -316,7 +323,7 @@
       
       
       
-      <li><a href="_sources/1_Introduction.ipynb" target="_blank"
+      <li><a href="_sources/App-1_Hands-on_Graph_Neural_Networks.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -400,7 +407,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Introduction: Hands-on Graph Neural Networks</h1>
+    <h1>Hands-on Graph Neural Networks</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -434,40 +441,40 @@ document.write(`
 <span class="expanded">Hide code cell content</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Install required packages.
-import os
-import torch
-os.environ[&#39;TORCH&#39;] = torch.__version__
-print(torch.__version__)
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install required packages.</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TORCH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">__version__</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 
-!pip install -q torch-scatter -f https://data.pyg.org/whl/torch-${TORCH}.html
-!pip install -q torch-sparse -f https://data.pyg.org/whl/torch-${TORCH}.html
-!pip install -q git+https://github.com/pyg-team/pytorch_geometric.git
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">torch</span><span class="o">-</span><span class="n">scatter</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">pyg</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">whl</span><span class="o">/</span><span class="n">torch</span><span class="o">-</span><span class="err">$</span><span class="p">{</span><span class="n">TORCH</span><span class="p">}</span><span class="o">.</span><span class="n">html</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">torch</span><span class="o">-</span><span class="n">sparse</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">pyg</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">whl</span><span class="o">/</span><span class="n">torch</span><span class="o">-</span><span class="err">$</span><span class="p">{</span><span class="n">TORCH</span><span class="p">}</span><span class="o">.</span><span class="n">html</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pyg</span><span class="o">-</span><span class="n">team</span><span class="o">/</span><span class="n">pytorch_geometric</span><span class="o">.</span><span class="n">git</span>
 
-# Helper function for visualization.
-%matplotlib inline
-import networkx as nx
-import matplotlib.pyplot as plt
-
-
-def visualize_graph(G, color):
-    plt.figure(figsize=(7,7))
-    plt.xticks([])
-    plt.yticks([])
-    nx.draw_networkx(G, pos=nx.spring_layout(G, seed=42), with_labels=False,
-                     node_color=color, cmap=&quot;Set2&quot;)
-    plt.show()
+<span class="c1"># Helper function for visualization.</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 
-def visualize_embedding(h, color, epoch=None, loss=None):
-    plt.figure(figsize=(7,7))
-    plt.xticks([])
-    plt.yticks([])
-    h = h.detach().cpu().numpy()
-    plt.scatter(h[:, 0], h[:, 1], s=140, c=color, cmap=&quot;Set2&quot;)
-    if epoch is not None and loss is not None:
-        plt.xlabel(f&#39;Epoch: {epoch}, Loss: {loss.item():.4f}&#39;, fontsize=16)
-    plt.show()
+<span class="k">def</span> <span class="nf">visualize_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                     <span class="n">node_color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Set2&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">visualize_embedding</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">h</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">h</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">140</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Set2&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">epoch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch: </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s1">, Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -482,8 +489,15 @@ def visualize_embedding(h, color, epoch=None, loss=None):
 </div>
 </details>
 </div>
-<section class="tex2jax_ignore mathjax_ignore" id="introduction-hands-on-graph-neural-networks">
-<h1>Introduction: Hands-on Graph Neural Networks<a class="headerlink" href="#introduction-hands-on-graph-neural-networks" title="Link to this heading">#</a></h1>
+<p>You may got some errors during installation and have to search for your problem.
+For example you may have to run the following steps on a system without GPU</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>conda install pytorch=2.3.1 torchvision torchaudio cpuonly -c pytorch
+pip install torch-sparse==0.6.18 -f https://pytorch-geometric.com/whl/torch-2.3.1+cpu.html  
+pip install torch-scatter==2.1.2 -f https://pytorch-geometric.com/whl/torch-2.3.1+cpu.html
+</pre></div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="hands-on-graph-neural-networks">
+<h1>Hands-on Graph Neural Networks<a class="headerlink" href="#hands-on-graph-neural-networks" title="Link to this heading">#</a></h1>
 <p>Recently, deep learning on graphs has emerged to one of the hottest research fields in the deep learning community.
 Here, <strong>Graph Neural Networks (GNNs)</strong> aim to generalize classical deep learning concepts to irregular structured data (in contrast to images or texts) and to enable neural networks to reason about objects and their relations.</p>
 <p>This is done by following a simple <strong>neural message passing scheme</strong>, where node features <span class="math notranslate nohighlight">\(\mathbf{x}_v^{(\ell)}\)</span> of all nodes <span class="math notranslate nohighlight">\(v \in \mathcal{V}\)</span> in a graph <span class="math notranslate nohighlight">\(\mathcal{G} = (\mathcal{V}, \mathcal{E})\)</span> are iteratively updated by aggregating localized information from their neighbors <span class="math notranslate nohighlight">\(\mathcal{N}(v)\)</span>:</p>
@@ -497,14 +511,14 @@ PyTorch Geometric is an extension library to the popular deep learning framework
 <p>PyTorch Geometric provides an easy access to this dataset via the <a class="reference external" href="https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html#torch_geometric.datasets"><code class="docutils literal notranslate"><span class="pre">torch_geometric.datasets</span></code></a> subpackage:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>from torch_geometric.datasets import KarateClub
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">KarateClub</span>
 
-dataset = KarateClub()
-print(f&#39;Dataset: {dataset}:&#39;)
-print(&#39;======================&#39;)
-print(f&#39;Number of graphs: {len(dataset)}&#39;)
-print(f&#39;Number of features: {dataset.num_features}&#39;)
-print(f&#39;Number of classes: {dataset.num_classes}&#39;)
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">KarateClub</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;======================&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of graphs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of features: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_features</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of classes: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_classes</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -524,20 +538,20 @@ Furthermore, the graph holds exactly <strong>4 classes</strong>, which represent
 <p>Let’s now look at the underlying graph in more detail:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>data = dataset[0]  # Get the first graph object.
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Get the first graph object.</span>
 
-print(data)
-print(&#39;==============================================================&#39;)
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;==============================================================&#39;</span><span class="p">)</span>
 
-# Gather some statistics about the graph.
-print(f&#39;Number of nodes: {data.num_nodes}&#39;)
-print(f&#39;Number of edges: {data.num_edges}&#39;)
-print(f&#39;Average node degree: {data.num_edges / data.num_nodes:.2f}&#39;)
-print(f&#39;Number of training nodes: {data.train_mask.sum()}&#39;)
-print(f&#39;Training node label rate: {int(data.train_mask.sum()) / data.num_nodes:.2f}&#39;)
-print(f&#39;Has isolated nodes: {data.has_isolated_nodes()}&#39;)
-print(f&#39;Has self-loops: {data.has_self_loops()}&#39;)
-print(f&#39;Is undirected: {data.is_undirected()}&#39;)
+<span class="c1"># Gather some statistics about the graph.</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of nodes: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">num_nodes</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of edges: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">num_edges</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Average node degree: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">num_edges</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">data</span><span class="o">.</span><span class="n">num_nodes</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of training nodes: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">train_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Training node label rate: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">train_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">data</span><span class="o">.</span><span class="n">num_nodes</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Has isolated nodes: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">has_isolated_nodes</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Has self-loops: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">has_self_loops</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Is undirected: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">is_undirected</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -571,11 +585,11 @@ For example, we can easily infer whether there exists isolated nodes in the grap
 <p>Let us now inspect the <code class="docutils literal notranslate"><span class="pre">edge_index</span></code> property in more detail:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>from IPython.display import Javascript  # Restrict height of output cell.
-display(Javascript(&#39;&#39;&#39;google.colab.output.setIframeHeight(0, true, {maxHeight: 300})&#39;&#39;&#39;))
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Javascript</span>  <span class="c1"># Restrict height of output cell.</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Javascript</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;google.colab.output.setIframeHeight(0, true, </span><span class="si">{maxHeight: 300}</span><span class="s1">)&#39;&#39;&#39;</span><span class="p">))</span>
 
-edge_index = data.edge_index
-print(edge_index.t())
+<span class="n">edge_index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">t</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -748,10 +762,10 @@ Instead of holding the adjacency information in a dense representation <span cla
 <p>We can further visualize the graph by converting it to the <code class="docutils literal notranslate"><span class="pre">networkx</span></code> library format, which implements, in addition to graph manipulation functionalities, powerful tools for visualization:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>from torch_geometric.utils import to_networkx
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">to_networkx</span>
 
-G = to_networkx(data, to_undirected=True)
-visualize_graph(G, color=data.y)
+<span class="n">G</span> <span class="o">=</span> <span class="n">to_networkx</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">to_undirected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">visualize_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -772,35 +786,35 @@ visualize_graph(G, color=data.y)
 <p>With this, we are ready to create our first Graph Neural Network by defining our network architecture in a <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code> class:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import torch
-from torch.nn import Linear
-from torch_geometric.nn import GCNConv
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Linear</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">GCNConv</span>
 
 
-class GCN(torch.nn.Module):
-    def __init__(self):
-        super().__init__()
-        torch.manual_seed(1234)
-        self.conv1 = GCNConv(dataset.num_features, 4)
-        self.conv2 = GCNConv(4, 4)
-        self.conv3 = GCNConv(4, 2)
-        self.classifier = Linear(2, dataset.num_classes)
+<span class="k">class</span> <span class="nc">GCN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">GCNConv</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_features</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">GCNConv</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">GCNConv</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
 
-    def forward(self, x, edge_index):
-        h = self.conv1(x, edge_index)
-        h = h.tanh()
-        h = self.conv2(h, edge_index)
-        h = h.tanh()
-        h = self.conv3(h, edge_index)
-        h = h.tanh()  # Final GNN embedding space.
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>  <span class="c1"># Final GNN embedding space.</span>
 
-        # Apply a final (linear) classifier.
-        out = self.classifier(h)
+        <span class="c1"># Apply a final (linear) classifier.</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
 
-        return out, h
+        <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">h</span>
 
-model = GCN()
-print(model)
+<span class="n">model</span> <span class="o">=</span> <span class="n">GCN</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -827,12 +841,12 @@ We proceed to initialize our final model via <code class="docutils literal notra
 Here, we pass in the initial node features <code class="docutils literal notranslate"><span class="pre">x</span></code> and the graph connectivity information <code class="docutils literal notranslate"><span class="pre">edge_index</span></code> to the model, and visualize its 2-dimensional embedding.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>model = GCN()
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">GCN</span><span class="p">()</span>
 
-_, h = model(data.x, data.edge_index)
-print(f&#39;Embedding shape: {list(h.shape)}&#39;)
+<span class="n">_</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Embedding shape: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-visualize_embedding(h, color=data.y)
+<span class="n">visualize_embedding</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -866,27 +880,27 @@ Here, this is implemented by filtering the output of the classifier <code class=
 <p>Let us now start training and see how our node embeddings evolve over time (best experienced by explicitely running the code):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import time
-from IPython.display import Javascript  # Restrict height of output cell.
-display(Javascript(&#39;&#39;&#39;google.colab.output.setIframeHeight(0, true, {maxHeight: 430})&#39;&#39;&#39;))
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Javascript</span>  <span class="c1"># Restrict height of output cell.</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Javascript</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;google.colab.output.setIframeHeight(0, true, </span><span class="si">{maxHeight: 430}</span><span class="s1">)&#39;&#39;&#39;</span><span class="p">))</span>
 
-model = GCN()
-criterion = torch.nn.CrossEntropyLoss()  # Define loss criterion.
-optimizer = torch.optim.Adam(model.parameters(), lr=0.01)  # Define optimizer.
+<span class="n">model</span> <span class="o">=</span> <span class="n">GCN</span><span class="p">()</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>  <span class="c1"># Define loss criterion.</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>  <span class="c1"># Define optimizer.</span>
 
-def train(data):
-    optimizer.zero_grad()  # Clear gradients.
-    out, h = model(data.x, data.edge_index)  # Perform a single forward pass.
-    loss = criterion(out[data.train_mask], data.y[data.train_mask])  # Compute the loss solely based on the training nodes.
-    loss.backward()  # Derive gradients.
-    optimizer.step()  # Update parameters based on gradients.
-    return loss, h
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>  <span class="c1"># Clear gradients.</span>
+    <span class="n">out</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">)</span>  <span class="c1"># Perform a single forward pass.</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">train_mask</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">train_mask</span><span class="p">])</span>  <span class="c1"># Compute the loss solely based on the training nodes.</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>  <span class="c1"># Derive gradients.</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>  <span class="c1"># Update parameters based on gradients.</span>
+    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">h</span>
 
-for epoch in range(401):
-    loss, h = train(data)
-    if epoch % 10 == 0:
-        visualize_embedding(h, color=data.y, epoch=epoch, loss=loss)
-        time.sleep(0.3)
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">401</span><span class="p">):</span>
+    <span class="n">loss</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">visualize_embedding</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -975,24 +989,6 @@ In the follow-up sessions, you will learn how to achieve state-of-the-art classi
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="intro.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Graph Neural Networks</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="2_Node_Classification.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Node Classification with Graph Neural Networks</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
