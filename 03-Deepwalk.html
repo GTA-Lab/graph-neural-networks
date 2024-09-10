@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -446,11 +446,11 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-the-nodes-with-k-means-the-node-degrees-are-used-as-the-node-features">Clustering the nodes with k-means. The node degrees are used as the node features.</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-walk"><strong>Deep Walk</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-node-embeddings-in-2-dimensions">Visualizing node embeddings in 2 dimensions</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#and-now-the-power-of-random-walk-and-node-embedding">And now the power of random walk and node embedding</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-walk"><strong>Deep Walk</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-node-embeddings-in-2-dimensions">Visualizing node embeddings in 2 dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#and-now-the-power-of-random-walks-and-node-embeddings-appears">And now, <strong>the power of random walks and node embeddings appears</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-classic-classification-methods-on-created-node-embeddings-such-as-random-forest">Using classic classification methods on created node embeddings, such as random forest</a></li>
 </ul>
 </li>
@@ -945,8 +945,9 @@ think you had an imagination, sure enough.”</p>
 <p>For an introduction to K-means clustering, see the <a class="reference external" href="https://fum-cs.github.io/cs-bsc-dm/">Data Minig Course at FUM</a></p>
 </section>
 </section>
-<section id="deep-walk">
-<h2><strong>Deep Walk</strong><a class="headerlink" href="#deep-walk" title="Link to this heading">#</a></h2>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="deep-walk">
+<h1><strong>Deep Walk</strong><a class="headerlink" href="#deep-walk" title="Link to this heading">#</a></h1>
 <p>Now, we use random walks to generate node features as sentences in word embedding and then use word2vec for node embedding (Deep Walk).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1028,7 +1029,6 @@ Similarity between node 0 and 4: 0.6748587489128113
 </div>
 </div>
 </div>
-</section>
 <section id="visualizing-node-embeddings-in-2-dimensions">
 <h2>Visualizing node embeddings in 2 dimensions<a class="headerlink" href="#visualizing-node-embeddings-in-2-dimensions" title="Link to this heading">#</a></h2>
 <p>For an introduction to PCA, see the <a class="reference external" href="https://fum-cs.github.io/fds">Foundations of Data Science Course at FUM</a>.</p>
@@ -1060,9 +1060,8 @@ Similarity between node 0 and 4: 0.6748587489128113
 </div>
 </div>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="and-now-the-power-of-random-walk-and-node-embedding">
-<h1>And now the power of random walk and node embedding<a class="headerlink" href="#and-now-the-power-of-random-walk-and-node-embedding" title="Link to this heading">#</a></h1>
+<section id="and-now-the-power-of-random-walks-and-node-embeddings-appears">
+<h2>And now, <strong>the power of random walks and node embeddings appears</strong><a class="headerlink" href="#and-now-the-power-of-random-walks-and-node-embeddings-appears" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Partition the nodes based on similarity to node 0 and node 33  </span>
@@ -1095,6 +1094,7 @@ Similarity between node 0 and 4: 0.6748587489128113
 <blockquote>
 <div><p>Note that the above result was achieved without any node features!</p>
 </div></blockquote>
+</section>
 <section id="using-classic-classification-methods-on-created-node-embeddings-such-as-random-forest">
 <h2>Using classic classification methods on created node embeddings, such as random forest<a class="headerlink" href="#using-classic-classification-methods-on-created-node-embeddings-such-as-random-forest" title="Link to this heading">#</a></h2>
 <p>For an introduction to Random Forest, see the <a class="reference external" href="https://fum-cs.github.io/cs-bsc-dm/">Data Minig Course at FUM</a></p>
@@ -1220,11 +1220,11 @@ Similarity between node 0 and 4: 0.6748587489128113
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-the-nodes-with-k-means-the-node-degrees-are-used-as-the-node-features">Clustering the nodes with k-means. The node degrees are used as the node features.</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-walk"><strong>Deep Walk</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-node-embeddings-in-2-dimensions">Visualizing node embeddings in 2 dimensions</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#and-now-the-power-of-random-walk-and-node-embedding">And now the power of random walk and node embedding</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-walk"><strong>Deep Walk</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-node-embeddings-in-2-dimensions">Visualizing node embeddings in 2 dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#and-now-the-power-of-random-walks-and-node-embeddings-appears">And now, <strong>the power of random walks and node embeddings appears</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-classic-classification-methods-on-created-node-embeddings-such-as-random-forest">Using classic classification methods on created node embeddings, such as random forest</a></li>
 </ul>
 </li>
