@@ -4,7 +4,9 @@
 format: jb-book
 root: intro
 chapters:
-- file: 1_Introduction
-- file: 2_Node_Classification
-- file: 3_Graph_Classification
-- file: 4_Scaling_GNNs
+- file: 01-introduction
+- file: 02-Introduction-to-NetworkX
+- file: 03-Deepwalk
+- file: 04-Node2Vec
+- file: 05-Including-Node-Features-with-MLP-and-GNN
+- file: 06-Introducing-GNNs

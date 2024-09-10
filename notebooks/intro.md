@@ -21,15 +21,6 @@ Labonne, Maxime, 2023. [PDF](https://fumdrive.um.ac.ir/index.php/s/5zzd9BcgLW5t2
 * [Github of the book](https://github.com/PacktPublishing/Hands-On-Graph-Neural-Networks-Using-Python)
 
 
-## Why Deep Learning?
-
-![](img/ML_vs_DL.jpg)
-
-See: [Deep Learning course at CS-FUM](https://fum-cs.github.io/dl/)
-
-![](img/Feature-Extraction-Techniques-in-Image-Processing-and-Graphs.png)
-
-
 **Some hands-on coding exercises using PyTorch to implement GNNs:**
 
 
@@ -38,7 +29,7 @@ See: [Deep Learning course at CS-FUM](https://fum-cs.github.io/dl/)
 
 ---
 
-This repository incorporates materials and inspiration from the [PyTorch-Geometric](pytorch-geometric.readthedocs.io) documentation and [Hands-on graph neural networks using Python](https://github.com/PacktPublishing/Hands-On-Graph-Neural-Networks-Using-Python) book. We acknowledge the valuable resources provided by these resources, which have been essential in the development of this tutorial.
+This repository incorporates materials and inspiration from the [PyTorch-Geometric](https://pytorch-geometric.readthedocs.io) documentation and [Hands-on graph neural networks using Python](https://github.com/PacktPublishing/Hands-On-Graph-Neural-Networks-Using-Python) book. We acknowledge the valuable resources provided by these resources, which have been essential in the development of this tutorial.
 
 ## Build
 
