@@ -1,0 +1,19 @@
+from torch.utils.tensorboard import SummaryWriter
+
+# Create a SummaryWriter
+writer = SummaryWriter('runs/mlp_experiment')
+
+# Create an instance of your model
+model = MLP(dim_in=3, dim_h=5, dim_out=2)
+
+# Create a dummy input
+dummy_input = torch.randn(1, 3)  # Batch size of 1, input dimension of 3
+
+# Add the model graph to TensorBoard
+writer.add_graph(model, dummy_input)
+
+# Close the writer
+writer.close()
+
+# !tensorboard --logdir=runs
+# http://localhost:6006

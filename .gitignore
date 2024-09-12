@@ -7,3 +7,4 @@ data/models/*
 *.swp
 .ipynb_checkpoints
 .jupyter
+runs/
