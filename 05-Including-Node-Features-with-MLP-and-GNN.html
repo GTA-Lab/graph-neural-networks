@@ -63,7 +63,7 @@
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Normalizing Features with Graph Convolutional Networks" href="06-Introducing-GNNs.html" />
+    <link rel="next" title="Graph Convolutional Networks" href="06-Introducing-GCNs.html" />
     <link rel="prev" title="Improving Embeddings with Biased Random Walks in Node2Vec" href="04-Node2Vec.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -193,7 +193,7 @@
 
 <li class="toctree-l1"><a class="reference internal" href="04-Node2Vec.html">Improving Embeddings with Biased Random Walks in Node2Vec</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Including Node Features with MLP &amp; GNNs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06-Introducing-GNNs.html">Normalizing Features with Graph Convolutional Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-Introducing-GCNs.html">Graph Convolutional Networks</a></li>
 </ul>
 
     </div>
@@ -434,8 +434,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gnn-layer-with-adjacency-matrix">GNN Layer with Adjacency Matrix</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#facebook-page-page-dataset">Facebook Page-Page dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
             </nav>
         </div>
@@ -1080,22 +1080,6 @@ $<span class="math notranslate nohighlight">\(
 \)</span>$</p>
 <p>Where:
 <span class="math notranslate nohighlight">\(\mathbf{A} \in \mathbb{R}^{N \times N}, \mathbf{X} \in \mathbb{R}^{N \times d}, \mathbf{W}^{(0)} \in \mathbb{R}^{d \times m} \rightarrow \mathbf{H}^{(1)}\in \mathbb{R}^{N \times m}\)</span></p>
-</section>
-</section>
-<section id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Each node has a feature vector <span class="math notranslate nohighlight">\( \mathbf{x}_i \)</span> of dimension <span class="math notranslate nohighlight">\( d \)</span>.</p></li>
-<li><p>The combined feature matrix for all nodes is <span class="math notranslate nohighlight">\( \mathbf{X} \in \mathbb{R}^{N \times d} \)</span>.</p></li>
-<li><p>A weight matrix <span class="math notranslate nohighlight">\( \mathbf{W} \in \mathbb{R}^{d \times m} \)</span> transforms the features.</p></li>
-<li><p>The adjacency matrix <span class="math notranslate nohighlight">\( \mathbf{A} \)</span> is used to aggregate neighbors’ information.</p></li>
-<li><p>The new node representations can be calculated iteratively in a GNN layer as:</p></li>
-</ol>
-<div class="math notranslate nohighlight">
-\[  
-\mathbf{H}^{(l)} = \sigma(\mathbf{A} \mathbf{H}^{(l-1)} \mathbf{W}^{(l)})  
-\]</div>
-<p>This framework builds the foundation for more complex operations in GNNs, including additional layers and techniques for handling diverse graph structures.</p>
 <div class="cell tag_hide-cell docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1225,6 +1209,7 @@ GNN test accuracy: 75.10%
 </div>
 </div>
 </section>
+</section>
 <section id="facebook-page-page-dataset">
 <h2>Facebook Page-Page dataset<a class="headerlink" href="#facebook-page-page-dataset" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
@@ -1339,6 +1324,21 @@ GNN test accuracy: 85.22%
 </div>
 </div>
 </section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Each node has a feature vector <span class="math notranslate nohighlight">\( \mathbf{x}_i \)</span> of dimension <span class="math notranslate nohighlight">\( d \)</span>.</p></li>
+<li><p>The combined feature matrix for all nodes is <span class="math notranslate nohighlight">\( \mathbf{X} \in \mathbb{R}^{N \times d} \)</span>.</p></li>
+<li><p>A weight matrix <span class="math notranslate nohighlight">\( \mathbf{W} \in \mathbb{R}^{d \times m} \)</span> transforms the features.</p></li>
+<li><p>The adjacency matrix <span class="math notranslate nohighlight">\( \mathbf{A} \)</span> is used to aggregate neighbors’ information.</p></li>
+<li><p>The new node representations can be calculated iteratively in a GNN layer as:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[  
+\mathbf{H}^{(l)} = \sigma(\mathbf{A} \mathbf{H}^{(l-1)} \mathbf{W}^{(l)})  
+\]</div>
+<p>This framework builds the foundation for more complex operations in GNNs, including additional layers and techniques for handling diverse graph structures.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1381,11 +1381,11 @@ GNN test accuracy: 85.22%
       </div>
     </a>
     <a class="right-next"
-       href="06-Introducing-GNNs.html"
+       href="06-Introducing-GCNs.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Normalizing Features with Graph Convolutional Networks</p>
+        <p class="prev-next-title">Graph Convolutional Networks</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1419,8 +1419,8 @@ GNN test accuracy: 85.22%
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gnn-layer-with-adjacency-matrix">GNN Layer with Adjacency Matrix</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#facebook-page-page-dataset">Facebook Page-Page dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
   </nav></div>
 

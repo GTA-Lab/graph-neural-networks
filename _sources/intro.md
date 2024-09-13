@@ -30,8 +30,3 @@ Labonne, Maxime, 2023. [PDF](https://fumdrive.um.ac.ir/index.php/s/5zzd9BcgLW5t2
 ---
 
 This repository incorporates materials and inspiration from the [PyTorch-Geometric](https://pytorch-geometric.readthedocs.io) documentation and [Hands-on graph neural networks using Python](https://github.com/PacktPublishing/Hands-On-Graph-Neural-Networks-Using-Python) book. We acknowledge the valuable resources provided by these resources, which have been essential in the development of this tutorial.
-
-## Build
-
-- jupyter-book build ./
-- ghp-import -n -p -f ./_build/html
