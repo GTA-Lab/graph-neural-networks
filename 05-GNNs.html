@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Including Node Features with MLP &amp; GNNs &#8212; GNNs</title>
+    <title>Graph Neural Networks &#8212; GNNs</title>
   
   
   
@@ -59,12 +59,12 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '05-Including-Node-Features-with-MLP-and-GNN';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '05-GNNs';</script>
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Graph Convolutional Networks" href="06-Introducing-GCNs.html" />
-    <link rel="prev" title="Improving Embeddings with Biased Random Walks in Node2Vec" href="04-Node2Vec.html" />
+    <link rel="next" title="Graph Convolutional Networks" href="06-GCNs.html" />
+    <link rel="prev" title="Biased Random Walks in Node2Vec" href="04-Node2Vec.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -191,9 +191,10 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="04-Node2Vec.html">Improving Embeddings with Biased Random Walks in Node2Vec</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Including Node Features with MLP &amp; GNNs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06-Introducing-GCNs.html">Graph Convolutional Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-Node2Vec.html">Biased Random Walks in Node2Vec</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-GCNs.html">Graph Convolutional Networks</a></li>
 </ul>
 
     </div>
@@ -248,7 +249,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/gta-lab/graph-neural-networks/blob/main/notebooks/05-Including-Node-Features-with-MLP-and-GNN.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/gta-lab/graph-neural-networks/blob/main/notebooks/05-GNNs.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -296,7 +297,7 @@
       
       
       
-      <li><a href="https://github.com/gta-lab/graph-neural-networks/issues/new?title=Issue%20on%20page%20%2F05-Including-Node-Features-with-MLP-and-GNN.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/gta-lab/graph-neural-networks/issues/new?title=Issue%20on%20page%20%2F05-GNNs.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -326,7 +327,7 @@
       
       
       
-      <li><a href="_sources/05-Including-Node-Features-with-MLP-and-GNN.ipynb" target="_blank"
+      <li><a href="_sources/05-GNNs.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -410,7 +411,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Including Node Features with MLP & GNNs</h1>
+    <h1>Graph Neural Networks</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -420,6 +421,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gnns-leveraging-node-features-for-enhanced-performance">GNNs: Leveraging Node Features for Enhanced Performance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introducing-graph-datasets">Introducing graph datasets</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cora-dataset">Cora dataset</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classifying-nodes-with-vanilla-neural-networks-mlps">Classifying nodes with vanilla neural networks (MLPs)</a></li>
@@ -447,8 +449,10 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="including-node-features-with-mlp-gnns">
-<h1>Including Node Features with MLP &amp; GNNs<a class="headerlink" href="#including-node-features-with-mlp-gnns" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="graph-neural-networks">
+<h1>Graph Neural Networks<a class="headerlink" href="#graph-neural-networks" title="Link to this heading">#</a></h1>
+<section id="gnns-leveraging-node-features-for-enhanced-performance">
+<h2>GNNs: Leveraging Node Features for Enhanced Performance<a class="headerlink" href="#gnns-leveraging-node-features-for-enhanced-performance" title="Link to this heading">#</a></h2>
 <p>So far, we’ve focused on graph topology, but graph datasets often include additional features for nodes and edges, such as scores, colors, and words. Incorporating these features is crucial for creating effective embeddings. In this chapter, we’ll introduce two new graph datasets: Cora and Facebook Page-Page that their nodes’ features are vectors.</p>
 <p><img alt="" src="_images/Node-with-features-Embedding.png" /></p>
 <p>We’ll explore how traditional Neural Networks perform on node features alone and then integrate topological information to develop our first Graph Neural Network (GNN) architecture. By comparing the two approaches, we’ll highlight the benefits of combining node features and edges.</p>
@@ -458,6 +462,7 @@ document.write(`
 <li><p>Classifying nodes with vanilla neural networks (MLP)</p></li>
 <li><p>Classifying nodes with vanilla graph neural networks (GNNs)</p></li>
 </ul>
+</section>
 <section id="introducing-graph-datasets">
 <h2>Introducing graph datasets<a class="headerlink" href="#introducing-graph-datasets" title="Link to this heading">#</a></h2>
 <p>The graph datasets we’re going to use in this chapter are richer than Zachary’s Karate Club: they have more nodes, more edges, and include node features. In this section, we will introduce them to give us a good understanding of these graphs and how to process them with PyTorch Geometric. Here
@@ -1377,11 +1382,11 @@ GNN test accuracy: 85.22%
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Improving Embeddings with Biased Random Walks in Node2Vec</p>
+        <p class="prev-next-title">Biased Random Walks in Node2Vec</p>
       </div>
     </a>
     <a class="right-next"
-       href="06-Introducing-GCNs.html"
+       href="06-GCNs.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
@@ -1405,6 +1410,7 @@ GNN test accuracy: 85.22%
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gnns-leveraging-node-features-for-enhanced-performance">GNNs: Leveraging Node Features for Enhanced Performance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introducing-graph-datasets">Introducing graph datasets</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cora-dataset">Cora dataset</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classifying-nodes-with-vanilla-neural-networks-mlps">Classifying nodes with vanilla neural networks (MLPs)</a></li>

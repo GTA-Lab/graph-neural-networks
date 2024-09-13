@@ -10,7 +10,7 @@
 
 ![](img/mathematicians.png)
 
-Graph of mathematcians, [Source: griffsgraphs](https://griffsgraphs.wordpress.com/2012/07/10/the-graph-of-mathematicians/)
+Graph of mathematicians, [Source: griffsgraphs](https://griffsgraphs.wordpress.com/2012/07/10/the-graph-of-mathematicians/)
 
 
 ## Why Deep Learning?

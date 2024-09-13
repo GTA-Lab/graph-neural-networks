@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Improving Embeddings with Biased Random Walks in Node2Vec &#8212; GNNs</title>
+    <title>Biased Random Walks in Node2Vec &#8212; GNNs</title>
   
   
   
@@ -57,11 +57,13 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '04-Node2Vec';</script>
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Including Node Features with MLP &amp; GNNs" href="05-Including-Node-Features-with-MLP-and-GNN.html" />
+    <link rel="next" title="Graph Neural Networks" href="05-GNNs.html" />
     <link rel="prev" title="Creating Node Representations with DeepWalk" href="03-Deepwalk.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -189,9 +191,10 @@
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Improving Embeddings with Biased Random Walks in Node2Vec</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05-Including-Node-Features-with-MLP-and-GNN.html">Including Node Features with MLP &amp; GNNs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06-Introducing-GCNs.html">Graph Convolutional Networks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Biased Random Walks in Node2Vec</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05-GNNs.html">Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-GCNs.html">Graph Convolutional Networks</a></li>
 </ul>
 
     </div>
@@ -395,7 +398,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -406,11 +411,26 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Improving Embeddings with Biased Random Walks in Node2Vec</h1>
+    <h1>Biased Random Walks in Node2Vec</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Biased Random Walks in Node2Vec</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#node2vec">Node2Vec</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transition-probabilities">Transition Probabilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#search-bias">Search Bias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation-of-probabilities">Interpretation of Probabilities</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -420,8 +440,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="improving-embeddings-with-biased-random-walks-in-node2vec">
-<h1>Improving Embeddings with Biased Random Walks in Node2Vec<a class="headerlink" href="#improving-embeddings-with-biased-random-walks-in-node2vec" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="biased-random-walks-in-node2vec">
+<h1>Biased Random Walks in Node2Vec<a class="headerlink" href="#biased-random-walks-in-node2vec" title="Link to this heading">#</a></h1>
 <p>Node2Vec is an architecture based on DeepWalk, focusing on improving the quality of embeddings by modifying the way random walks are generated. This chapter discusses these modifications and how to find the best parameters for a given graph. It includes implementing Node2Vec and comparing it to DeepWalk using Zachary’s Karate Club dataset. Additionally, it covers building a movie recommender system (RecSys) powered by Node2Vec.</p>
 <p>By the end of this chapter, you’ll learn to implement Node2Vec on any graph dataset, select good parameters, and understand why it generally outperforms DeepWalk. You’ll also see how to apply it to build creative applications.</p>
 <p>Topics covered include:</p>
@@ -430,6 +450,47 @@ document.write(`
 <li><p>Implementing Node2Vec</p></li>
 <li><p>Building a movie RecSys</p></li>
 </ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="node2vec">
+<h1>Node2Vec<a class="headerlink" href="#node2vec" title="Link to this heading">#</a></h1>
+<p>Node2Vec is a powerful algorithm for learning continuous feature representations of nodes in a graph. It extends the idea of random walks to create flexible and efficient node embeddings by simulating both Depth-First Search (DFS) and Breadth-First Search (BFS) strategies through the introduction of two parameters: the return parameter <span class="math notranslate nohighlight">\( p \)</span> and the in-out parameter <span class="math notranslate nohighlight">\( q \)</span>.</p>
+<section id="transition-probabilities">
+<h2>Transition Probabilities<a class="headerlink" href="#transition-probabilities" title="Link to this heading">#</a></h2>
+<p>Let’s take the following figure as an example. In this context, we denote the current node as <span class="math notranslate nohighlight">\( j \)</span>, the previous node as <span class="math notranslate nohighlight">\( i \)</span>, and the future node as <span class="math notranslate nohighlight">\( k \)</span>.</p>
+<p><img alt="" src="_images/Node2Vec-example.png" /></p>
+<p>We define <span class="math notranslate nohighlight">\( \pi_{jk} \)</span> as the unnormalized transition probability from node <span class="math notranslate nohighlight">\( j \)</span> to node <span class="math notranslate nohighlight">\( k \)</span>. This probability can be decomposed as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+\pi_{jk} = \alpha(i, k) \cdot w_{jk}
+\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \alpha(i, k) \)</span> represents the search bias between nodes <span class="math notranslate nohighlight">\( i \)</span> and <span class="math notranslate nohighlight">\( k \)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\( w_{jk} \)</span> is the weight of the edge from node <span class="math notranslate nohighlight">\( j \)</span> to node <span class="math notranslate nohighlight">\( k \)</span>.</p></li>
+</ul>
+</section>
+<section id="search-bias">
+<h2>Search Bias<a class="headerlink" href="#search-bias" title="Link to this heading">#</a></h2>
+<p>In the original DeepWalk algorithm, the search bias <span class="math notranslate nohighlight">\( \alpha(a, b) \)</span> is set to 1 for any pair of nodes, meaning that all transitions are treated equally. However, in Node2Vec, the value of <span class="math notranslate nohighlight">\( \alpha(a, b) \)</span> is defined based on the distance <span class="math notranslate nohighlight">\( d(a, b) \)</span> between the nodes and the parameters <span class="math notranslate nohighlight">\( p \)</span> and <span class="math notranslate nohighlight">\( q \)</span>. The role of these parameters is to control the exploration behavior of the random walk, approximating DFS and BFS as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\alpha(a, b) =
+\begin{cases}
+\frac{1}{p}, &amp; \text{if } d(a, b) = 0 \\
+1, &amp; \text{if } d(a, b) = 1 \\
+\frac{1}{q}, &amp; \text{if } d(a, b) = 2
+\end{cases}
+\end{split}\]</div>
+</section>
+<section id="interpretation-of-probabilities">
+<h2>Interpretation of Probabilities<a class="headerlink" href="#interpretation-of-probabilities" title="Link to this heading">#</a></h2>
+<p>Let’s decrypt these probabilities:</p>
+<ul class="simple">
+<li><p><strong>Return Probability</strong>: When the walk starts from node <span class="math notranslate nohighlight">\( j \)</span> and arrives at node <span class="math notranslate nohighlight">\( k \)</span>, the probability of returning to the previous node <span class="math notranslate nohighlight">\( i \)</span> is controlled by the parameter <span class="math notranslate nohighlight">\( p \)</span>. A higher value of <span class="math notranslate nohighlight">\( p \)</span> encourages the random walk to explore new nodes rather than returning to the previous one, thus mimicking a DFS-like behavior.</p></li>
+<li><p><strong>Immediate Neighbors</strong>: The unnormalized probability of moving to node <span class="math notranslate nohighlight">\( k_1 \)</span> when it is an immediate neighbor of <span class="math notranslate nohighlight">\( i \)</span> (i.e., <span class="math notranslate nohighlight">\( d(i, k_1) = 1 \)</span>) is set to 1. This means that the random walk will always consider immediate neighbors as potential next steps.</p></li>
+<li><p><strong>Exploration of Distant Nodes</strong>: The probability of transitioning to a node <span class="math notranslate nohighlight">\( k_2 \)</span> that is two hops away (i.e., <span class="math notranslate nohighlight">\( d(i, k_2) = 2 \)</span>) is controlled by the parameter <span class="math notranslate nohighlight">\( q \)</span>. A higher value of <span class="math notranslate nohighlight">\( q \)</span> will make the random walk focus more on nodes that are close to the previous node, resulting in a BFS-like exploration.</p></li>
+</ul>
+<p>Node2Vec effectively balances exploration and exploitation in the random walk process by adjusting the transition probabilities based on the specified parameters <span class="math notranslate nohighlight">\( p \)</span> and <span class="math notranslate nohighlight">\( q \)</span>. This flexibility allows Node2Vec to capture different structural properties of the graph, leading to meaningful node embeddings that can be used for various downstream tasks such as node classification, clustering, and link prediction.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span><span class="nv">node2vec</span><span class="o">==</span><span class="m">0</span>.4.6
@@ -1031,6 +1092,7 @@ White Squall (1996): 0.44
 </div>
 </div>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1072,11 +1134,11 @@ White Squall (1996): 0.44
       </div>
     </a>
     <a class="right-next"
-       href="05-Including-Node-Features-with-MLP-and-GNN.html"
+       href="05-GNNs.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Including Node Features with MLP &amp; GNNs</p>
+        <p class="prev-next-title">Graph Neural Networks</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1086,6 +1148,28 @@ White Squall (1996): 0.44
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Biased Random Walks in Node2Vec</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#node2vec">Node2Vec</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transition-probabilities">Transition Probabilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#search-bias">Search Bias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation-of-probabilities">Interpretation of Probabilities</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
