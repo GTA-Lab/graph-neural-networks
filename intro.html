@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Graph Neural Networks &#8212; GNNs</title>
+    <title>Introduction &#8212; GNNs</title>
   
   
   
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -63,7 +63,7 @@
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="01-introduction.html" />
+    <link rel="next" title="Graph Neural Networks" href="01-introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -179,12 +179,12 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    Graph Neural Networks
+                    Introduction
                 </a>
             </li>
         </ul>
         <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01-introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-introduction.html">Graph Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02-Introduction-to-NetworkX.html">Introduction to Network Analysis with NetworkX</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html">Creating Node Representations with DeepWalk</a></li>
 
@@ -367,7 +367,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -378,11 +380,20 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Graph Neural Networks</h1>
+    <h1>Introduction</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-graphs">Why Graphs?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-deep-learning">Why Deep Learning?</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -393,41 +404,23 @@ document.write(`
                 <article class="bd-article">
                   
   <p><img alt="" src="_images/banner.png" /></p>
-<section class="tex2jax_ignore mathjax_ignore" id="graph-neural-networks">
-<h1>Graph Neural Networks<a class="headerlink" href="#graph-neural-networks" title="Link to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
 <p>2024 Instructor: <a class="reference external" href="http://mamintoosi.github.io">Mahmood Amintoosi</a></p>
 <hr class="docutils" />
-<p>Welcome to this hands-on workshop, where we’ll delve into the exciting world of Graph Neural Networks (GNNs)! GNNs have revolutionized Machine Learning by enabling effective analysis of complex graph-structured data. To help you get started, I’ve curated a concise guide (study sheet) that will introduce you to the fundamentals of GNNs and bring you up-to-speed with the latest advancements.</p>
-<p><strong>Some valuable resources to deepen our understanding of GNNs:</strong></p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://gta-lab.github.io/gnn-intro/">Gentle Introduction to GNNs</a>  (by Distill)</p></li>
-<li><p><a class="reference external" href="https://gta-lab.github.io/understanding-gnns/">Understanding Convolutions on Graphs</a> (by Distill)</p></li>
-<li><p><a class="reference external" href="https://rish-16.github.io/posts/gnn-math/">Math Behind Graph Neural Networks</a> (by Rishabh Anand)</p></li>
-</ul>
-<p><strong>Our main source book is: Hands-on graph neural networks using Python</strong></p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://library-search.open.ac.uk/discovery/fulldisplay?vid=44OPN_INST:VU1&amp;amp;search_scope=MyInst_and_CI&amp;amp;tab=Everything&amp;amp;docid=alma9953021868502316&amp;amp;lang=en&amp;amp;context=L&amp;amp;adaptor=Local%20Search%20Engine&amp;amp;query=sub,exact,%20Python%20,AND&amp;amp;mode=advanced&amp;amp;offset=30">Hands-on graph neural networks using Python</a> : practical techniques and architectures for building powerful graph and deep learning apps with Pytorch
-Labonne, Maxime, 2023. <a class="reference external" href="https://fumdrive.um.ac.ir/index.php/s/5zzd9BcgLW5t23B">PDF</a></p></li>
-<li><p><a class="reference external" href="https://github.com/PacktPublishing/Hands-On-Graph-Neural-Networks-Using-Python">Github of the book</a></p></li>
-</ul>
-<p><strong>Some hands-on coding exercises using PyTorch to implement GNNs:</strong></p>
+<section id="why-graphs">
+<h2>Why Graphs?<a class="headerlink" href="#why-graphs" title="Link to this heading">#</a></h2>
+<p><img alt="" src="_images/mathematicians.png" /></p>
+<p>Graph of mathematcians, <a class="reference external" href="https://griffsgraphs.wordpress.com/2012/07/10/the-graph-of-mathematicians/">Source: griffsgraphs</a></p>
+</section>
+<section id="why-deep-learning">
+<h2>Why Deep Learning?<a class="headerlink" href="#why-deep-learning" title="Link to this heading">#</a></h2>
+<p><img alt="" src="_images/ML_vs_DL.jpg" /></p>
+<p>See: <a class="reference external" href="https://fum-cs.github.io/dl/">Deep Learning course at FUM-CS</a></p>
+<p><img alt="" src="_images/Feature-Extraction-Techniques-in-Image-Processing-and-Graphs.png" /></p>
+</section>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="01-introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02-Introduction-to-NetworkX.html">Introduction to Network Analysis with NetworkX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html">Creating Node Representations with DeepWalk</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html#deepwalk-and-skip-gram">DeepWalk and Skip-Gram</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html#skip-gram-model-in-natural-language-processing">Skip-Gram Model in Natural Language Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html#getting-started-with-word2vec-in-gensim-and-making-it-work">Getting started with Word2Vec in Gensim and making it work!</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html#random-walk">Random walk</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03-Deepwalk.html#deep-walk"><strong>Deep Walk</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="04-Node2Vec.html">Improving Embeddings with Biased Random Walks in Node2Vec</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05-Including-Node-Features-with-MLP-and-GNN.html">Including Node Features with MLP &amp; GNNs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06-Introducing-GCNs.html">Graph Convolutional Networks</a></li>
-</ul>
 </div>
-<hr class="docutils" />
-<p>This repository incorporates materials and inspiration from the <a class="reference external" href="https://pytorch-geometric.readthedocs.io">PyTorch-Geometric</a> documentation and <a class="reference external" href="https://github.com/PacktPublishing/Hands-On-Graph-Neural-Networks-Using-Python">Hands-on graph neural networks using Python</a> book. We acknowledge the valuable resources provided by these resources, which have been essential in the development of this tutorial.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -465,7 +458,7 @@ Labonne, Maxime, 2023. <a class="reference external" href="https://fumdrive.um.a
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Introduction</p>
+        <p class="prev-next-title">Graph Neural Networks</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -475,6 +468,22 @@ Labonne, Maxime, 2023. <a class="reference external" href="https://fumdrive.um.a
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-graphs">Why Graphs?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-deep-learning">Why Deep Learning?</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
@@ -495,7 +504,7 @@ By Mahmood Amintoosi
 
   <p class="copyright">
     
-      © Copyright 2023.
+      © Copyright 2024. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad.
       <br/>
     
   </p>
