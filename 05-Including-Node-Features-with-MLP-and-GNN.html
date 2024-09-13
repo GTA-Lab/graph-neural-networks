@@ -57,6 +57,8 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '05-Including-Node-Features-with-MLP-and-GNN';</script>
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -423,6 +425,16 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classifying-nodes-with-vanilla-neural-networks-mlps">Classifying nodes with vanilla neural networks (MLPs)</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classifying-nodes-with-vanilla-graph-neural-network">Classifying nodes with Vanilla Graph Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-of-graph-representation">Basics of Graph Representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#node-features">Node Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weight-matrix">Weight Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#node-representation-calculation">Node Representation Calculation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weight-sharing">Weight Sharing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gnn-layer-with-adjacency-matrix">GNN Layer with Adjacency Matrix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#facebook-page-page-dataset">Facebook Page-Page dataset</a></li>
 </ul>
             </nav>
@@ -441,7 +453,7 @@ document.write(`
 <p>By the end of this chapter, you’ll learn to implement MLP and GNNs in PyTorch, embedding topological features into node representations to enhance model performance. Topics covered include:</p>
 <ul class="simple">
 <li><p>Introducing graph datasets</p></li>
-<li><p>Classifying nodes with vanilla neural networks (MLPs)</p></li>
+<li><p>Classifying nodes with vanilla neural networks (MLP)</p></li>
 <li><p>Classifying nodes with vanilla graph neural networks (GNNs)</p></li>
 </ul>
 <section id="introducing-graph-datasets">
@@ -468,7 +480,7 @@ reference. Each publication is described as a binary vector of 1,433 unique word
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>torch-scatter~<span class="o">=</span><span class="m">2</span>.1.0<span class="w"> </span>torch-sparse~<span class="o">=</span><span class="m">0</span>.6.16<span class="w"> </span>torch-cluster~<span class="o">=</span><span class="m">1</span>.6.0<span class="w"> </span>torch-spline-conv~<span class="o">=</span><span class="m">1</span>.2.1<span class="w"> </span>torch-geometric<span class="o">==</span><span class="m">2</span>.2.0<span class="w"> </span>-f<span class="w"> </span>https://data.pyg.org/whl/torch-<span class="o">{</span>torch.__version__<span class="o">}</span>.html
+<span class="c1"># !pip install -q torch-scatter~=2.1.0 torch-sparse~=0.6.16 torch-cluster~=1.6.0 torch-spline-conv~=1.2.1 torch-geometric==2.2.0 -f https://data.pyg.org/whl/torch-{torch.__version__}.html</span>
 
 <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -897,9 +909,13 @@ The code here are based on PyTorch.</p>
 <span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_true</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate accuracy.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">==</span> <span class="n">y_true</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Multilayer Perceptron&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim_in</span><span class="p">,</span> <span class="n">dim_h</span><span class="p">,</span> <span class="n">dim_out</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -942,8 +958,13 @@ The code here are based on PyTorch.</p>
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
         <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">data</span><span class="o">.</span><span class="n">test_mask</span><span class="p">],</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">test_mask</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">acc</span>
-
-<span class="c1"># Create MLP model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create MLP model</span>
 <span class="n">mlp</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_features</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mlp</span><span class="p">)</span>
 
@@ -973,6 +994,122 @@ MLP test accuracy: 53.40%
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="classifying-nodes-with-vanilla-graph-neural-network">
+<h2>Classifying nodes with Vanilla Graph Neural Network<a class="headerlink" href="#classifying-nodes-with-vanilla-graph-neural-network" title="Link to this heading">#</a></h2>
+<p>A Graph Neural Network (GNN) is a type of neural network designed to operate on graph-structured data. It learns to represent nodes and edges in a graph through message passing and aggregation techniques. Let’s break down a simple GNN architecture, focusing on some core mathematical components, particularly the formulation involving weights.</p>
+<section id="basics-of-graph-representation">
+<h3>Basics of Graph Representation<a class="headerlink" href="#basics-of-graph-representation" title="Link to this heading">#</a></h3>
+<p>In a graph <span class="math notranslate nohighlight">\( G = (V, E) \)</span>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( V \)</span> is the set of nodes (vertices), <span class="math notranslate nohighlight">\(|V|=N\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\( E \)</span> is the set of edges connecting these nodes.</p></li>
+</ul>
+</section>
+<section id="node-features">
+<h3>Node Features<a class="headerlink" href="#node-features" title="Link to this heading">#</a></h3>
+<p>Each node <span class="math notranslate nohighlight">\( i \in V \)</span> has a feature vector <span class="math notranslate nohighlight">\( \mathbf{x}_i \)</span> of dimension <span class="math notranslate nohighlight">\( d \)</span>. If there are <span class="math notranslate nohighlight">\( N \)</span> nodes in the graph, we can represent the features of all nodes as a feature matrix <span class="math notranslate nohighlight">\( \mathbf{X} \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[  
+\mathbf{X} \in \mathbb{R}^{N \times d}  
+\]</div>
+</section>
+<section id="weight-matrix">
+<h3>Weight Matrix<a class="headerlink" href="#weight-matrix" title="Link to this heading">#</a></h3>
+<p>In GNNs, the weights are shared across all nodes, which is a key aspect that allows the model to generalize to different sizes and structures of graphs. The weight matrix <span class="math notranslate nohighlight">\( \mathbf{W} \in \mathbb{R}^{d \times m} \)</span> transforms the feature dimension from <span class="math notranslate nohighlight">\( d \)</span> to <span class="math notranslate nohighlight">\( m \)</span> (the output dimension).</p>
+</section>
+<section id="node-representation-calculation">
+<h3>Node Representation Calculation<a class="headerlink" href="#node-representation-calculation" title="Link to this heading">#</a></h3>
+<p>For a single node <span class="math notranslate nohighlight">\( i \)</span>, the new representation after applying the weight matrix can be given as:</p>
+<div class="math notranslate nohighlight">
+\[  
+\mathbf{h}_i = \mathbf{W}^T\mathbf{x}_i   
+\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \mathbf{h}_i \in \mathbb{R}^{m} \)</span> is the new representation of node <span class="math notranslate nohighlight">\( i \)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\( \mathbf{x}_i \in \mathbb{R}^{d} \)</span> is the feature vector of node <span class="math notranslate nohighlight">\( i \)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\( \mathbf{W} \in \mathbb{R}^{d \times m} \)</span> is the weight matrix.</p></li>
+<li><p><span class="math notranslate nohighlight">\( \mathbf{X} \in \mathbb{R}^{N \times d}\)</span> is the features of all nodes.
+In matrix form for all nodes:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[  
+\mathbf{H} = \mathbf{X} \mathbf{W}  
+\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \mathbf{H} \in \mathbb{R}^{N \times m} \)</span> is the matrix of new node representations.</p></li>
+</ul>
+</section>
+<section id="weight-sharing">
+<h3>Weight Sharing<a class="headerlink" href="#weight-sharing" title="Link to this heading">#</a></h3>
+<p>The weight sharing comes from the fact that each <span class="math notranslate nohighlight">\( \mathbf{x}_i \)</span> is transformed by the same weight matrix <span class="math notranslate nohighlight">\( \mathbf{W} \)</span>. This ensures that irrespective of the node being processed, the same transformation is applied, allowing for efficient training on various graph sizes.</p>
+</section>
+<section id="gnn-layer-with-adjacency-matrix">
+<h3>GNN Layer with Adjacency Matrix<a class="headerlink" href="#gnn-layer-with-adjacency-matrix" title="Link to this heading">#</a></h3>
+<p>A simple vanilla GNN layer can use the adjacency matrix <span class="math notranslate nohighlight">\( \mathbf{A} \in \mathbb{R}^{N \times N}\)</span> of the graph. The operation of a GNN Layer are as follows:</p>
+<ol class="arabic simple">
+<li><p><strong>Aggregation</strong>: For each node, aggregate features from its neighbors. This can be done using matrix multiplication with the adjacency matrix:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[  
+\mathbf{H}^{(l)} = \mathbf{A} \mathbf{H}^{(l-1)}  
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Update</strong>: Apply the weight transformation to the aggregated node features:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[  
+\mathbf{H}^{(l)} = \sigma(\mathbf{A} \mathbf{H}^{(l-1)} \mathbf{W}^{(l)})  
+\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \mathbf{H}^{(l)} \)</span> represents the node features at layer <span class="math notranslate nohighlight">\( l \)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\( \sigma \)</span> is an activation function (e.g., ReLU).</p></li>
+<li><p><span class="math notranslate nohighlight">\( \mathbf{W}^{(l)} \)</span> is the weight matrix for layer <span class="math notranslate nohighlight">\( l \)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\( \mathbf{H}^{(0)} = X\)</span>.</p></li>
+</ul>
+<p>This operation allows each node to learn from its neighbors and update its representation iteratively across multiple layers.</p>
+<p>For <span class="math notranslate nohighlight">\(l=1\)</span>, we have:
+$<span class="math notranslate nohighlight">\(  
+\mathbf{H}^{(1)} = \sigma(\mathbf{A} \mathbf{X} \mathbf{W}^{(0)})  
+\)</span>$</p>
+<p>Where:
+<span class="math notranslate nohighlight">\(\mathbf{A} \in \mathbb{R}^{N \times N}, \mathbf{X} \in \mathbb{R}^{N \times d}, \mathbf{W}^{(0)} \in \mathbb{R}^{d \times m} \rightarrow \mathbf{H}^{(1)}\in \mathbb{R}^{N \times m}\)</span></p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Each node has a feature vector <span class="math notranslate nohighlight">\( \mathbf{x}_i \)</span> of dimension <span class="math notranslate nohighlight">\( d \)</span>.</p></li>
+<li><p>The combined feature matrix for all nodes is <span class="math notranslate nohighlight">\( \mathbf{X} \in \mathbb{R}^{N \times d} \)</span>.</p></li>
+<li><p>A weight matrix <span class="math notranslate nohighlight">\( \mathbf{W} \in \mathbb{R}^{d \times m} \)</span> transforms the features.</p></li>
+<li><p>The adjacency matrix <span class="math notranslate nohighlight">\( \mathbf{A} \)</span> is used to aggregate neighbors’ information.</p></li>
+<li><p>The new node representations can be calculated iteratively in a GNN layer as:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[  
+\mathbf{H}^{(l)} = \sigma(\mathbf{A} \mathbf{H}^{(l-1)} \mathbf{W}^{(l)})  
+\]</div>
+<p>This framework builds the foundation for more complex operations in GNNs, including additional layers and techniques for handling diverse graph structures.</p>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Linear</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VanillaGNNLayer</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -981,9 +1118,9 @@ MLP test accuracy: 53.40%
         <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">dim_in</span><span class="p">,</span> <span class="n">dim_out</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">adjacency</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">adjacency</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span>
+        <span class="n">hw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">ahw</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">adjacency</span><span class="p">,</span> <span class="n">hw</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ahw</span>
 </pre></div>
 </div>
 </div>
@@ -994,12 +1131,13 @@ MLP test accuracy: 53.40%
 
 <span class="n">adjacency</span> <span class="o">=</span> <span class="n">to_dense_adj</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">adjacency</span> <span class="o">+=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">adjacency</span><span class="p">))</span>
-<span class="n">adjacency</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">adjacency</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([2708, 2708])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(torch.Size([2708, 1433]), torch.Size([2708, 2708]))
 </pre></div>
 </div>
 </div>
@@ -1014,10 +1152,10 @@ MLP test accuracy: 53.40%
         <span class="bp">self</span><span class="o">.</span><span class="n">gnn2</span> <span class="o">=</span> <span class="n">VanillaGNNLayer</span><span class="p">(</span><span class="n">dim_h</span><span class="p">,</span> <span class="n">dim_out</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">adjacency</span><span class="p">):</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gnn1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">adjacency</span><span class="p">)</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gnn2</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">adjacency</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ahw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gnn1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">adjacency</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">ahw</span><span class="p">)</span>
+        <span class="n">ahw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gnn2</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">adjacency</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">ahw</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">epochs</span><span class="p">):</span>
         <span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
@@ -1072,31 +1210,18 @@ MLP test accuracy: 53.40%
     (linear): Linear(in_features=16, out_features=7, bias=False)
   )
 )
-Epoch   0 | Train Loss: 1.991 | Train Acc: 15.71% | Val Loss: 2.11 | Val Acc: 9.40%
-Epoch  20 | Train Loss: 0.065 | Train Acc: 99.29% | Val Loss: 1.47 | Val Acc: 76.80%
-Epoch  40 | Train Loss: 0.014 | Train Acc: 100.00% | Val Loss: 2.11 | Val Acc: 75.40%
-Epoch  60 | Train Loss: 0.007 | Train Acc: 100.00% | Val Loss: 2.22 | Val Acc: 75.40%
-Epoch  80 | Train Loss: 0.004 | Train Acc: 100.00% | Val Loss: 2.20 | Val Acc: 76.80%
-Epoch 100 | Train Loss: 0.003 | Train Acc: 100.00% | Val Loss: 2.19 | Val Acc: 77.00%
+Epoch   0 | Train Loss: 2.039 | Train Acc: 16.43% | Val Loss: 2.10 | Val Acc: 8.80%
+Epoch  20 | Train Loss: 0.025 | Train Acc: 100.00% | Val Loss: 2.20 | Val Acc: 74.40%
+Epoch  40 | Train Loss: 0.003 | Train Acc: 100.00% | Val Loss: 2.95 | Val Acc: 73.20%
+Epoch  60 | Train Loss: 0.001 | Train Acc: 100.00% | Val Loss: 3.04 | Val Acc: 73.80%
+Epoch  80 | Train Loss: 0.001 | Train Acc: 100.00% | Val Loss: 2.96 | Val Acc: 74.20%
+Epoch 100 | Train Loss: 0.001 | Train Acc: 100.00% | Val Loss: 2.89 | Val Acc: 74.40%
 
-GNN test accuracy: 76.60%
+GNN test accuracy: 75.10%
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">adjacency</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(torch.Size([2708, 1433]), torch.Size([2708, 2708]))
-</pre></div>
-</div>
-</div>
-</div>
-</section>
 </section>
 <section id="facebook-page-page-dataset">
 <h2>Facebook Page-Page dataset<a class="headerlink" href="#facebook-page-page-dataset" title="Link to this heading">#</a></h2>
@@ -1182,14 +1307,14 @@ Graph has loops: True
   (linear1): Linear(in_features=128, out_features=16, bias=True)
   (linear2): Linear(in_features=16, out_features=4, bias=True)
 )
-Epoch   0 | Train Loss: 1.401 | Train Acc: 28.11% | Val Loss: 1.40 | Val Acc: 28.91%
-Epoch  20 | Train Loss: 0.671 | Train Acc: 73.47% | Val Loss: 0.68 | Val Acc: 72.94%
-Epoch  40 | Train Loss: 0.579 | Train Acc: 76.95% | Val Loss: 0.61 | Val Acc: 74.89%
-Epoch  60 | Train Loss: 0.549 | Train Acc: 78.20% | Val Loss: 0.60 | Val Acc: 75.59%
-Epoch  80 | Train Loss: 0.533 | Train Acc: 78.76% | Val Loss: 0.60 | Val Acc: 75.39%
-Epoch 100 | Train Loss: 0.520 | Train Acc: 79.23% | Val Loss: 0.60 | Val Acc: 75.39%
+Epoch   0 | Train Loss: 1.435 | Train Acc: 19.40% | Val Loss: 1.42 | Val Acc: 19.46%
+Epoch  20 | Train Loss: 0.677 | Train Acc: 73.54% | Val Loss: 0.69 | Val Acc: 73.04%
+Epoch  40 | Train Loss: 0.581 | Train Acc: 76.63% | Val Loss: 0.63 | Val Acc: 73.74%
+Epoch  60 | Train Loss: 0.551 | Train Acc: 78.13% | Val Loss: 0.61 | Val Acc: 75.14%
+Epoch  80 | Train Loss: 0.534 | Train Acc: 78.72% | Val Loss: 0.61 | Val Acc: 75.19%
+Epoch 100 | Train Loss: 0.522 | Train Acc: 79.26% | Val Loss: 0.61 | Val Acc: 75.59%
 
-MLP test accuracy: 75.33%
+MLP test accuracy: 75.42%
 
 VanillaGNN(
   (gnn1): VanillaGNNLayer(
@@ -1199,14 +1324,14 @@ VanillaGNN(
     (linear): Linear(in_features=16, out_features=4, bias=False)
   )
 )
-Epoch   0 | Train Loss: 176.683 | Train Acc: 28.31% | Val Loss: 173.10 | Val Acc: 28.41%
-Epoch  20 | Train Loss: 6.675 | Train Acc: 79.69% | Val Loss: 4.49 | Val Acc: 80.19%
-Epoch  40 | Train Loss: 2.284 | Train Acc: 82.15% | Val Loss: 1.60 | Val Acc: 83.64%
-Epoch  60 | Train Loss: 1.231 | Train Acc: 83.92% | Val Loss: 1.06 | Val Acc: 84.34%
-Epoch  80 | Train Loss: 0.874 | Train Acc: 84.77% | Val Loss: 0.84 | Val Acc: 84.24%
-Epoch 100 | Train Loss: 0.661 | Train Acc: 84.75% | Val Loss: 0.66 | Val Acc: 84.49%
+Epoch   0 | Train Loss: 46.270 | Train Acc: 25.39% | Val Loss: 46.26 | Val Acc: 25.41%
+Epoch  20 | Train Loss: 3.429 | Train Acc: 82.52% | Val Loss: 2.84 | Val Acc: 82.69%
+Epoch  40 | Train Loss: 1.318 | Train Acc: 84.51% | Val Loss: 1.28 | Val Acc: 85.04%
+Epoch  60 | Train Loss: 0.797 | Train Acc: 85.23% | Val Loss: 0.85 | Val Acc: 85.04%
+Epoch  80 | Train Loss: 0.690 | Train Acc: 85.83% | Val Loss: 0.72 | Val Acc: 85.39%
+Epoch 100 | Train Loss: 0.852 | Train Acc: 86.12% | Val Loss: 0.70 | Val Acc: 86.89%
 
-GNN test accuracy: 85.62%
+GNN test accuracy: 85.22%
 </pre></div>
 </div>
 </div>
@@ -1283,6 +1408,16 @@ GNN test accuracy: 85.62%
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classifying-nodes-with-vanilla-neural-networks-mlps">Classifying nodes with vanilla neural networks (MLPs)</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classifying-nodes-with-vanilla-graph-neural-network">Classifying nodes with Vanilla Graph Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-of-graph-representation">Basics of Graph Representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#node-features">Node Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weight-matrix">Weight Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#node-representation-calculation">Node Representation Calculation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weight-sharing">Weight Sharing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gnn-layer-with-adjacency-matrix">GNN Layer with Adjacency Matrix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#facebook-page-page-dataset">Facebook Page-Page dataset</a></li>
 </ul>
   </nav></div>
