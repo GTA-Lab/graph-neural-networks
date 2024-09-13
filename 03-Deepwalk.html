@@ -248,7 +248,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/fum-cs/graph-neural-networks/blob/main/notebooks/03-Deepwalk.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/gta-lab/graph-neural-networks/blob/main/notebooks/03-Deepwalk.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -279,7 +279,7 @@
       
       
       
-      <li><a href="https://github.com/fum-cs/graph-neural-networks" target="_blank"
+      <li><a href="https://github.com/gta-lab/graph-neural-networks" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -296,7 +296,7 @@
       
       
       
-      <li><a href="https://github.com/fum-cs/graph-neural-networks/issues/new?title=Issue%20on%20page%20%2F03-Deepwalk.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/gta-lab/graph-neural-networks/issues/new?title=Issue%20on%20page%20%2F03-Deepwalk.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -575,12 +575,22 @@ think you had an imagination, sure enough.”</p>
 </section>
 <section id="gensim-nltk">
 <h2>Gensim &amp; NLTK<a class="headerlink" href="#gensim-nltk" title="Link to this heading">#</a></h2>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install nltk</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Auto-setup when running on Google Colab</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">())</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;/content/machine-learning&#39;</span><span class="p">):</span>
+    <span class="o">!</span>git<span class="w"> </span>clone<span class="w"> </span>-q<span class="w"> </span>https://github.com/gta-lab/graph-neural-networks.git<span class="w"> </span>/content/machine-learning
+    <span class="o">%</span><span class="k">cd</span> graph-neural-networks/notebooks
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
