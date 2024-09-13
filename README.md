@@ -6,7 +6,7 @@
 
 An introduction to graph neural networks
 
-- [Course Jupyter Book](https://fum-cs.github.io/graph-neural-networks/README.html)
+- [Course Jupyter Book](https://gta-lab.github.io/graph-neural-networks/README.html)
 
 2024 Instructor: Mahmood Amintoosi
 

@@ -9,4 +9,4 @@ chapters:
 - file: 03-Deepwalk
 - file: 04-Node2Vec
 - file: 05-Including-Node-Features-with-MLP-and-GNN
-- file: 06-Introducing-GNNs
+- file: 06-Introducing-GCNs
