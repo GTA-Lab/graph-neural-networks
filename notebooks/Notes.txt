@@ -1,3 +1,96 @@
+## The Weisfeiler-Lehman (WL) method 
+
+The Weisfeiler-Lehman (WL) method is an algorithm used to check graph isomorphism, which helps determine whether two graphs are structurally identical. In the context of Graph Neural Networks (GNNs), the WL method can be adapted to enhance the way GNNs learn from graph-structured data. Here’s a simple explanation of the WL algorithm and its application in GNNs:
+
+### Understanding the Weisfeiler-Lehman Algorithm
+
+1. **Node Labels**:
+   - Begin by assigning an initial label to each node in the graph based on its features. For example, if a node has a feature vector, you might use a simple encoding like a string or a tuple to represent this feature.
+
+2. **Iterative Refinement**:
+   - The WL algorithm iteratively refines the labels of nodes. In each iteration:
+     1. **Neighborhood Aggregation**: Each node collects the labels of its neighbors. This means that a node's new label will consider not just its own label but also those of the nodes it is connected to (its neighbors).
+     2. **Concatenation and Hashing**: The collected labels (including the node's own label) are concatenated, and a new label is generated for each node. This step often involves hashing to ensure that labels remain manageable and avoid excessive size growth.
+     3. **Updating Labels**: The new labels are assigned to the nodes, and the process repeats for a fixed number of iterations or until labels stabilize (i.e., not changing anymore).
+
+3. **Isomorphism Check**:
+   - After several iterations, if the final labels for two graphs are the same, they may be isomorphic, meaning they have the same structure. However, if their labels differ at any point, they cannot be isomorphic.
+
+### Application in Graph Neural Networks
+
+In the context of GNNs, the WL procedure influences how the networks learn embeddings:
+
+1. **Message Passing**: GNNs often use a message-passing framework, akin to the WL process. Nodes gather information from their neighbors through a series of iterations just like in the WL algorithm.
+
+2. **Label Aggregation**: In GNNs, the information from neighboring nodes is aggregated (e.g., through summation or averaging) and used to update a node's representation. This can be seen as a similar concept to the label updates in the WL iterations.
+
+3. **Node Representation Learning**: Just as the WL method helps refine node labels to classify graphs, GNNs learn node representations through layers to capture structural information about the graph. The learned representations can be used for various tasks like node classification, link prediction, or graph classification.
+
+### Advantages of WL-Based Approaches
+
+- **Expressiveness**: GNNs inspired by the WL method can distinguish between non-isomorphic graphs more effectively, improving their ability to learn meaningful representations.
+- **Foundation for GNN Development**: The insights from the WL algorithm have influenced the design of more expressive GNN architectures, ensuring they can leverage structured information in graphs efficiently.
+
+### Summary
+
+The Weisfeiler-Lehman algorithm is a powerful method to refine node labels based on neighborhood information in graphs. It serves as a foundational concept for GNNs, guiding how these networks aggregate information from their neighbors to learn better node and graph representations. By mimicking the WL process, GNNs can improve their performance in tasks involving graph data, facilitating more accurate and effective learning.
+
+
+
+## Projection in SimpleGNN
+
+A Graph Neural Network (GNN) is a type of neural network designed to operate on graph-structured data. It learns to represent nodes and edges in a graph through message passing and aggregation techniques. Let's break down a simple GNN architecture, focusing on some core mathematical components, particularly the formulation involving weights.
+
+### Basics of Graph Representation
+
+In a graph \( G = (V, E) \):
+- \( V \) is the set of nodes (vertices).
+- \( E \) is the set of edges connecting these nodes.
+
+### Node Features
+
+Each node \( i \in V \) has a feature vector \( \mathbf{x}_i \) of dimension \( d \). If there are \( N \) nodes in the graph, we can represent the features of all nodes as a feature matrix \( \mathbf{X} \):
+\[
+\mathbf{X} \in \mathbb{R}^{N \times d}
+\]
+
+### Weight Matrix
+
+In GNNs, the weights are shared across all nodes which is a key aspect that allows the model to generalize to different sizes and structures of graphs. The weight matrix \( \mathbf{W} \in \mathbb{R}^{d \times m} \) transforms the feature dimension from \( d \) to \( m \) (the output dimension).
+
+### Node Representation Calculation
+
+For a single node \( i \), the new representation after applying the weight matrix can be given as:
+\[
+\mathbf{h}_i = \mathbf{x}_i \mathbf{W}
+\]
+Where:
+- \( \mathbf{h}_i \in \mathbb{R}^{m} \) is the new representation of node \( i \).
+- \( \mathbf{x}_i \in \mathbb{R}^{d} \) is the feature vector of node \( i \).
+- \( \mathbf{W} \in \mathbb{R}^{d \times m} \) is the weight matrix.
+
+In matrix form for all nodes:
+\[
+\mathbf{H} = \mathbf{X} \mathbf{W}
+\]
+Where:
+- \( \mathbf{H} \in \mathbb{R}^{N \times m} \) is the matrix of new node representations.
+
+### Weight Sharing
+
+The weight sharing comes from the fact that each \( \mathbf{x}_i \) is transformed by the same weight matrix \( \mathbf{W} \). This means that irrespective of the node being processed, the same transformation is applied, ensuring that the model parameters do not grow with the number of nodes, allowing for efficient training on various graph sizes.
+
+### Summary
+
+1. Each node has a feature vector \( \mathbf{x}_i \) of dimension \( d \).
+2. The combined feature matrix for all nodes is \( \mathbf{X} \in \mathbb{R}^{N \times d} \).
+3. A weight matrix \( \mathbf{W} \in \mathbb{R}^{d \times m} \) transforms the features.
+4. The new node representations can be calculated as \( \mathbf{H} = \mathbf{X} \mathbf{W} \in \mathbb{R}^{N \times m} \), applying the same weights uniformly across nodes.
+
+This framework sets the stage for more complex operations such as message passing, which leverages neighborhood information and further transformations.
+
+
+
 from torch.utils.tensorboard import SummaryWriter
 
 # Create a SummaryWriter
@@ -17,3 +110,64 @@ writer.close()
 
 # !tensorboard --logdir=runs
 # http://localhost:6006
+
+
+## SimpleGNN
+
+It has a problem
+
+import torch
+import torch.nn.functional as F
+
+class SimpleGCNLayer(torch.nn.Module):
+    def __init__(self, in_features, out_features):
+        super(SimpleGCNLayer, self).__init__()
+        self.weights = torch.nn.Parameter(torch.randn(in_features, out_features))
+    
+    def forward(self, node_features, adjacency_matrix):
+        # Normalize adjacency matrix
+        D_inv = torch.diag(1.0 / torch.sqrt(adjacency_matrix.sum(dim=1)))
+        norm_adj = D_inv @ adjacency_matrix @ D_inv  # D^(-1/2) * A * D^(-1/2)
+        
+        # Linear transformation and aggregation
+        aggregated_features = norm_adj @ node_features @ self.weights
+        
+        return F.relu(aggregated_features)
+
+class SimpleGCN(torch.nn.Module):
+    def __init__(self, num_features, hidden_dim, num_classes):
+        super(SimpleGCN, self).__init__()
+        self.layer1 = SimpleGCNLayer(num_features, hidden_dim)
+        self.layer2 = SimpleGCNLayer(hidden_dim, num_classes)
+    
+    def forward(self, node_features, adjacency_matrix):
+        x = self.layer1(node_features, adjacency_matrix)
+        x = torch.relu(x)
+        x = self.layer2(x, adjacency_matrix)        
+        return F.log_softmax(x, dim=1)
+
+model = SimpleGCN(dataset.num_features, 16, dataset.num_classes)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
+criterion = torch.nn.CrossEntropyLoss()
+
+def train():
+      model.train()
+      optimizer.zero_grad()  # Clear gradients.
+      out = model(data.x, adjacency)  # Perform a single forward pass.
+      loss = criterion(out[data.train_mask], data.y[data.train_mask])  # Compute the loss solely based on the training nodes.
+      loss.backward()  # Derive gradients.
+      optimizer.step()  # Update parameters based on gradients.
+      return loss
+
+def test():
+      model.eval()
+      out = model(data.x, adjacency)
+      pred = out.argmax(dim=1)  # Use the class with highest probability.
+      test_correct = pred[data.test_mask] == data.y[data.test_mask]  # Check against ground-truth labels.
+      test_acc = int(test_correct.sum()) / int(data.test_mask.sum())  # Derive ratio of correct predictions.
+      return test_acc
+
+
+for epoch in range(1, 101):
+    loss = train()
+    print(f'Epoch: {epoch:03d}, Loss: {loss:.4f}')
