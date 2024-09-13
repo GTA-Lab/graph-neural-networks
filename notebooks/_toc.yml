@@ -4,7 +4,7 @@
 format: jb-book
 root: intro
 chapters:
-- file: 01-introduction
+- file: 01-Workshop-Pathway
 - file: 02-Introduction-to-NetworkX
 - file: 03-Deepwalk
 - file: 04-Node2Vec

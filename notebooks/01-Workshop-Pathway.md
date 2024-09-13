@@ -1,6 +1,6 @@
 ![](img/banner.png)
 
-# Graph Neural Networks
+# Workshop Pathway
 
 2024 Instructor: [Mahmood Amintoosi](http://mamintoosi.github.io)
 
