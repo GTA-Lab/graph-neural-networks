@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -484,7 +484,12 @@ reference. Each publication is described as a binary vector of 1,433 unique word
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w">  </span>torch-geometric<span class="o">==</span><span class="m">2</span>.2.0<span class="w"> </span>torch-scatter~<span class="o">=</span><span class="m">2</span>.1.0<span class="w"> </span>torch-sparse~<span class="o">=</span><span class="m">0</span>.6.16<span class="w"> </span>-f<span class="w"> </span>https://data.pyg.org/whl/torch-<span class="o">{</span>torch.__version__<span class="o">}</span>.html
+<span class="c1"># Auto-setup when running on Google Colab</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
+    <span class="o">%</span><span class="k">pip</span> install -q  torch-geometric==2.2.0 torch-scatter~=2.1.0 torch-sparse~=0.6.16 -f https://data.pyg.org/whl/torch-{torch.__version__}.html
+
+<span class="c1"># !pip install -q  torch-geometric==2.2.0 torch-scatter~=2.1.0 torch-sparse~=0.6.16 -f https://data.pyg.org/whl/torch-{torch.__version__}.html</span>
 
 <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -495,6 +500,27 @@ reference. Each publication is described as a binary vector of 1,433 unique word
 </div>
 </div>
 </details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>show<span class="w"> </span>torch-geometric
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Name: torch_geometric
+Version: 2.4.0
+Summary: Graph Neural Network Library for PyTorch
+Home-page: 
+Author: 
+Author-email: Matthias Fey &lt;matthias@pyg.org&gt;
+License: 
+Location: d:\programdata\anaconda3\envs\pth\lib\site-packages
+Requires: jinja2, numpy, psutil, pyparsing, requests, scikit-learn, scipy, tqdm
+Required-by: 
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -530,6 +556,12 @@ reference. Each publication is described as a binary vector of 1,433 unique word
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>d:\ProgramData\Anaconda3\envs\pth\lib\site-packages\torch_geometric\typing.py:63: UserWarning: An issue occurred while importing &#39;torch-scatter&#39;. Disabling its usage. Stacktrace: [WinError 127] The specified procedure could not be found
+  warnings.warn(f&quot;An issue occurred while importing &#39;torch-scatter&#39;. &quot;
+d:\ProgramData\Anaconda3\envs\pth\lib\site-packages\torch_geometric\typing.py:101: UserWarning: An issue occurred while importing &#39;torch-sparse&#39;. Disabling its usage. Stacktrace: [WinError 127] The specified procedure could not be found
+  warnings.warn(f&quot;An issue occurred while importing &#39;torch-sparse&#39;. &quot;
+</pre></div>
+</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset: Cora()
 ---------------
 Number of graphs: 1
@@ -553,13 +585,15 @@ Is undirected: True
 </div>
 </div>
 <p>The different subjects (classes) are:</p>
-<p>‘Case_Based’,
-‘Genetic_Algorithms’,
-‘Neural_Networks’,
-‘Probabilistic_Methods’,
-‘Reinforcement_Learning’,
-‘Rule_Learning’,
-‘Theory’</p>
+<ul class="simple">
+<li><p>‘Case_Based’,</p></li>
+<li><p>‘Genetic_Algorithms’,</p></li>
+<li><p>‘Neural_Networks’,</p></li>
+<li><p>‘Probabilistic_Methods’,</p></li>
+<li><p>‘Reinforcement_Learning’,</p></li>
+<li><p>‘Rule_Learning’,</p></li>
+<li><p>‘Theory’</p></li>
+</ul>
 <p>A typical ML challenges with this dataset in mind:</p>
 <ul class="simple">
 <li><p>label prediction: predict the subject of a paper (node) on the basis of the surrounding node data and the structure of the graph</p></li>
@@ -1214,6 +1248,8 @@ GNN test accuracy: 75.10%
 </section>
 <section id="facebook-page-page-dataset">
 <h2>Facebook Page-Page dataset<a class="headerlink" href="#facebook-page-page-dataset" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="http://snap.stanford.edu/data/facebook-large-page-page-network.html">This webgraph</a> is a page-page graph of verified Facebook sites. Nodes represent official Facebook pages while the links are mutual likes between sites. Node features are extracted from the site descriptions that the page owners created to summarize the purpose of the site. This graph was collected through the Facebook Graph API in November 2017 and restricted to pages from 4 categories which are defined by Facebook. These categories are: politicians, governmental organizations, television shows and companies. The task related to this dataset is multi-class node classification for the 4 site categories.</p>
+<p><img alt="" src="_images/Facebook-prattsi.jpg" /></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Facebook dataset</span>
@@ -1317,10 +1353,10 @@ Epoch   0 | Train Loss: 46.270 | Train Acc: 25.39% | Val Loss: 46.26 | Val Acc: 
 Epoch  20 | Train Loss: 3.429 | Train Acc: 82.52% | Val Loss: 2.84 | Val Acc: 82.69%
 Epoch  40 | Train Loss: 1.318 | Train Acc: 84.51% | Val Loss: 1.28 | Val Acc: 85.04%
 Epoch  60 | Train Loss: 0.797 | Train Acc: 85.23% | Val Loss: 0.85 | Val Acc: 85.04%
-Epoch  80 | Train Loss: 0.690 | Train Acc: 85.83% | Val Loss: 0.72 | Val Acc: 85.39%
-Epoch 100 | Train Loss: 0.852 | Train Acc: 86.12% | Val Loss: 0.70 | Val Acc: 86.89%
+Epoch  80 | Train Loss: 0.751 | Train Acc: 83.69% | Val Loss: 0.77 | Val Acc: 83.49%
+Epoch 100 | Train Loss: 0.907 | Train Acc: 86.17% | Val Loss: 0.73 | Val Acc: 86.19%
 
-GNN test accuracy: 85.22%
+GNN test accuracy: 85.05%
 </pre></div>
 </div>
 </div>
