@@ -8,3 +8,4 @@ data/models/*
 .ipynb_checkpoints
 .jupyter
 runs/
+var/
